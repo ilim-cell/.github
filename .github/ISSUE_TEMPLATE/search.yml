@@ -8,10 +8,11 @@ body:
       value: |
         ### Search all XKCDs
         Once you open the issue, please wait. Search results should arrive shortly.
-  - type: checkboxes
-    id: select
+  - type: dropdown
+    id: include_text
     attributes:
-      label: Search Options
-      options: 
-        - label: Include text in images
-          required: true
+      label: Include text in images?
+      options:
+        - "Yes"
+    validations:
+      required: true
