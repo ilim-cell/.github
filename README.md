@@ -2,7 +2,7 @@
 
 Welcome to my personal GitHub profile repository! 🚀 This repository is a fully self-contained, offline-capable, and serverless AI system designed to index, organize, and search the entire catalog of xkcd comics.
 
-🌟 Double Identity: Not only is this a state-of-the-art semantic search repository, but it also doubles as my GitHub Profile README! When visitors land on my profile page, they are greeted with a dynamically updated, OCR-processed dashboard featuring the latest live xkcd release alongside my projects.
+**🌟 Double Identity:** Not only is this a state-of-the-art semantic search repository, but it also doubles as my GitHub Profile README! When visitors land on my profile page, they are greeted with a dynamically updated, OCR-processed dashboard featuring the latest live xkcd release alongside my projects.
 
 By leveraging semantic vector embeddings, this built-in profile search engine looks beyond simple keywords to match comics based on concepts, jokes, storylines, or emotional intent. Whether you are looking for "a mother deleting a school student list" or "why you shouldn't use password rules with numbers", this engine understands the context and serves the exact comic instantly.
 
@@ -32,9 +32,8 @@ Dual-Search Platform:
 │   └── xkcd.png                  # Image placeholder mirror for profile README
 ├── xkcd/                         # Organised folder backup (Format: num_slug/text.txt & images)
 ├── xkcd_embeddings.json          # Master JSON database with 384-dimensional vector coordinate arrays
-├── local_backfill.py             # Highly detailed local scraper and indexer with status bar
+├── local_backfill.py             # Restores offline assets with smart user-agent headers
 ├── generate_embeddings.py        # Vectorizes raw text strings into neural network dimensions
-├── restore_vault.py              # Restores offline assets with smart user-agent headers
 └── index.html                    # Single-file HTML/JS client search app
 ```
 
