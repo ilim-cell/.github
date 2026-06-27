@@ -1,0 +1,17 @@
+name: 🔎 Search
+description: Search all xkcd comics by concept, joke, or meaning.
+title: "search: [Your query here]"
+labels: ["xkcd-search"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Search all XKCDs
+        Once you open the issue, wait for the comment to come
+  - type: input
+    id: query
+    attributes:
+      label: What are you looking for?
+      placeholder: how a mother deletes a school student list
+    validations:
+      required: true
