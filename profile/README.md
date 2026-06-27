@@ -25,6 +25,7 @@
 <a href="https://xkcd.com" target="_blank" rel="noopener noreferrer">
   <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="Latest xkcd" />
 </a>
+<details><summary>Hover text</summary>...text...</details>
 <!-- xkcd-end -->
 
 [credit: xkcd](https://xkcd.com)
