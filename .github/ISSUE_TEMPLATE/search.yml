@@ -8,3 +8,8 @@ body:
       value: |
         ### Search all XKCDs
         Once you open the issue, please wait. Search results should arrive shortly.
+  - type: checkboxes
+    id: select
+      attributes:
+        options: 
+          - label: -
