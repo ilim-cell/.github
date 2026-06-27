@@ -10,6 +10,6 @@ body:
         Once you open the issue, please wait. Search results should arrive shortly.
   - type: checkboxes
     id: select
-      attributes:
-        options: 
-          - label: -
+    attributes:
+      options: 
+        - label: "-"
