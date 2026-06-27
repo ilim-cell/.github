@@ -22,7 +22,7 @@
           <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
             xkcd Semantic Vault
           </h1>
-          <p class="text-xs text-slate-400">Pure Client-Side Neural Search Engine</p>
+          <p class="text-xs text-slate-400">Pure Client-Side Hybrid Search Engine</p>
         </div>
       </div>
       <div id="modelStatus" class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/50 text-xs text-amber-400">
@@ -116,6 +116,18 @@
     const resultsList = document.getElementById('resultsList');
     const setupAlert = document.getElementById('setupAlert');
 
+    // Standard English stop words to ignore during browser keyword extraction
+    const STOP_WORDS = new Set([
+      "the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", 
+      "with", "by", "about", "against", "between", "into", "through", "during", 
+      "before", "after", "above", "below", "of", "up", "down", "out", "off", 
+      "over", "under", "again", "further", "then", "once", "here", "there", 
+      "when", "where", "why", "how", "all", "any", "both", "each", "few", 
+      "more", "most", "other", "some", "such", "no", "nor", "not", "only", 
+      "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", 
+      "just", "don", "should", "now"
+    ]);
+
     // Helper: Compute Cosine Similarity between two arrays
     function cosineSimilarity(vecA, vecB) {
       let dotProduct = 0.0;
@@ -127,6 +139,27 @@
         normB += vecB[i] * vecB[i];
       }
       return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    // Helper: Compute Lexical/Keyword score boost
+    function calculateKeywordBoost(query, title, alt, ocrText) {
+      const cleanQuery = query.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+      const queryWords = cleanQuery.split(/\s+/).filter(w => !STOP_WORDS.has(w) && w.length > 1);
+      
+      if (queryWords.length === 0) return 0.0;
+
+      const searchablePool = `${title} ${alt} ${ocrText}`.toLowerCase();
+      let matches = 0;
+      
+      for (const word of queryWords) {
+        if (searchablePool.includes(word)) {
+          matches++;
+        }
+      }
+
+      // Grants up to a maximum score boost of +0.20 (20%) for a complete keyword match
+      const matchRatio = matches / queryWords.length;
+      return matchRatio * 0.20;
     }
 
     // Step 1: Detect if running on file:// protocol (CORS alert)
@@ -211,7 +244,17 @@
       const scoredResults = [];
       for (const [id, comic] of Object.entries(database)) {
         if (!comic.embedding) continue;
-        const score = cosineSimilarity(queryEmbedding, comic.embedding);
+        
+        // Base Semantic Score
+        const semanticScore = cosineSimilarity(queryEmbedding, comic.embedding);
+        
+        // Calculate Lexical Boost (up to +0.20)
+        const ocrText = comic.ocr_text || comic.transcript || "";
+        const keywordBoost = calculateKeywordBoost(query, comic.title || "", comic.alt || "", ocrText);
+        
+        // Combined Hybrid Score (capped at 1.0)
+        const score = Math.min(1.0, semanticScore + keywordBoost);
+        
         scoredResults.push({ id, ...comic, score });
       }
 
@@ -242,7 +285,7 @@
               <div>
                 <div class="flex flex-wrap items-center gap-2 mb-2">
                   <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    ${scorePercent}% Semantic Match
+                    ${scorePercent}% Hybrid Match
                   </span>
                   <span class="text-xs text-slate-500">ID: #${hit.id}</span>
                 </div>
