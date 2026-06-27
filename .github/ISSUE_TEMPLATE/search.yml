@@ -1,13 +1,14 @@
 name: 🔎 Search
 description: Search all xkcd comics by concept, joke, or meaning.
-title: "search: [Your query here]"
+title: "Search"
 labels: ["xkcd-search"]
 body:
   - type: markdown
     attributes:
       value: |
         ### Search all XKCDs
-        Once you open the issue, wait for the comment to come
+        Once you open the issue, track your issue. The search results should arrive within a minute.
+        Note: you do not need to rename the title.
   - type: input
     id: query
     attributes:

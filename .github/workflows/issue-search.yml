@@ -21,6 +21,14 @@ jobs:
         with:
           issue-body: ${{ github.event.issue.body }}
 
+      - name: Rename Issue to Match Search Query
+        # Uses built-in GitHub CLI to update the title to the user's actual search term
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SEARCH_QUERY: ${{ steps.parse.outputs.query }}
+        run: |
+          gh issue edit ${{ github.event.issue.number }} --title "$SEARCH_QUERY"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
