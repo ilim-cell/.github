@@ -21,9 +21,12 @@
 
 
 ### XKCD
+<!-- xkcd-start -->
 <a href="https://xkcd.com" target="_blank" rel="noopener noreferrer">
   <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="Latest xkcd" />
 </a>
+<!-- xkcd-end -->
+
 [credit: xkcd](https://xkcd.com)
 
 <details>
