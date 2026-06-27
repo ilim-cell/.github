@@ -9,10 +9,10 @@ permissions:
 
 jobs:
   semantic-lookup:
-    # Runs if the issue has the search label OR if the title starts with "search:"
+    # Runs on initial open OR if labeled later (prevents double runs on issue creation)
     if: |
-      contains(github.event.issue.labels.*.name, 'xkcd-search') || 
-      startsWith(github.event.issue.title, 'search:')
+      (github.event.action == 'opened' && (contains(github.event.issue.labels.*.name, 'xkcd-search') || startsWith(github.event.issue.title, 'search:'))) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'xkcd-search' && github.event.issue.created_at != github.event.issue.updated_at)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Vault Repository
@@ -47,13 +47,17 @@ jobs:
             hf-model-${{ runner.os }}-
 
       - name: Install Compute Dependencies
+        # Create a virtual environment and install packages inside it (PEP 668 safe!)
         run: |
-          uv pip install --system sentence-transformers numpy
+          uv venv
+          uv pip install sentence-transformers numpy
 
       - name: Execute Model Cross-Referencing & Auto-Rename
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python .github/scripts/issue_search.py
+        # Run the script using the virtual environment's Python interpreter
+        run: |
+          .venv/bin/python .github/scripts/issue_search.py
 
       - name: Edit Status Comment with Search Results
         env:
