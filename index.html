@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xkcd Semantic Search Vault</title>
+  <!-- Tailwind CSS for modern responsive styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons for beautiful dashboard assets -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- Header Banner -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-500/20">
+          <i data-lucide="search-code" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+            xkcd Semantic Vault
+          </h1>
+          <p class="text-xs text-slate-400">Pure Client-Side Neural Search Engine</p>
+        </div>
+      </div>
+      <div id="modelStatus" class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/50 text-xs text-amber-400">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+        </span>
+        <span id="statusText">Initializing Search Core...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 flex flex-col gap-8">
+    
+    <!-- Search Inputs -->
+    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/40 backdrop-blur flex flex-col gap-4 shadow-xl shadow-slate-950/20">
+      <div class="relative flex items-center">
+        <i data-lucide="search" class="absolute left-4 w-5 h-5 text-slate-400"></i>
+        <input 
+          type="text" 
+          id="queryInput" 
+          disabled
+          placeholder="Type a concept (e.g., 'exploiting databases', 'time travel logic', 'passwords')..." 
+          class="w-full bg-slate-950 border border-slate-700/60 rounded-xl py-3.5 pl-12 pr-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all disabled:opacity-55 disabled:cursor-not-allowed"
+        />
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+          <span>Show top</span>
+          <select id="limitSelect" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-slate-200 focus:outline-none">
+            <option value="3">3 results</option>
+            <option value="5" selected>5 results</option>
+            <option value="10">10 results</option>
+          </select>
+        </div>
+        <div id="databaseMetrics" class="bg-slate-900 px-3 py-1 rounded-md border border-slate-800">
+          Database: Loading index...
+        </div>
+      </div>
+    </div>
+
+    <!-- Error/Alert box (hidden by default) -->
+    <div id="setupAlert" class="hidden bg-amber-500/10 border border-amber-500/20 text-amber-300 p-5 rounded-xl flex items-start gap-3">
+      <i data-lucide="alert-triangle" class="w-5 h-5 mt-0.5 shrink-0 text-amber-400"></i>
+      <div>
+        <h4 class="font-semibold text-sm">Local Server Required</h4>
+        <p class="text-xs mt-1 text-amber-300/80 leading-relaxed">
+          Because of browser security (CORS), web browsers can't load the <code class="bg-slate-950/80 px-1 py-0.5 rounded text-indigo-300">xkcd_embeddings.json</code> file directly using the <code class="text-slate-300 font-mono">file://</code> protocol. To view your search app, open your terminal in this folder and start a quick static server:
+        </p>
+        <pre class="bg-slate-950 text-emerald-400 font-mono text-xs p-2.5 rounded-lg mt-2.5 border border-slate-800">python -m http.server 8000</pre>
+        <p class="text-xs mt-2 text-amber-300/80">
+          Then, open <a href="http://localhost:8000" target="_blank" class="underline text-indigo-400 font-semibold hover:text-indigo-300">http://localhost:8000</a> in your browser!
+        </p>
+      </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="flex flex-col gap-4">
+      <h2 class="text-lg font-semibold tracking-tight text-slate-300 flex items-center gap-2">
+        <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
+        Semantic Search Results
+      </h2>
+      <div id="resultsList" class="flex flex-col gap-6">
+        <!-- Default State Message -->
+        <div class="text-center py-16 border border-dashed border-slate-800 rounded-2xl bg-slate-950/20">
+          <i data-lucide="sparkles" class="w-10 h-10 text-slate-600 mx-auto mb-3 animate-pulse"></i>
+          <p class="text-slate-400 text-sm">Please wait while the AI neural search core finishes booting up...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950/40 py-6 mt-12 text-center text-xs text-slate-500">
+    <p>⚡ Driven serverless by Hugging Face Transformers.js • 🎨 Styled with Tailwind CSS</p>
+  </footer>
+
+  <!-- Import Transformers.js as an ESM Module -->
+  <script type="module">
+    import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.14.0';
+
+    let embedder = null;
+    let database = null;
+
+    const queryInput = document.getElementById('queryInput');
+    const statusText = document.getElementById('statusText');
+    const modelStatus = document.getElementById('modelStatus');
+    const metricsDiv = document.getElementById('databaseMetrics');
+    const resultsList = document.getElementById('resultsList');
+    const setupAlert = document.getElementById('setupAlert');
+
+    // Helper: Compute Cosine Similarity between two arrays
+    function cosineSimilarity(vecA, vecB) {
+      let dotProduct = 0.0;
+      let normA = 0.0;
+      let normB = 0.0;
+      for (let i = 0; i < vecA.length; i++) {
+        dotProduct += vecA[i] * vecB[i];
+        normA += vecA[i] * vecA[i];
+        normB += vecB[i] * vecB[i];
+      }
+      return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    // Step 1: Detect if running on file:// protocol (CORS alert)
+    if (window.location.protocol === 'file:') {
+      setupAlert.classList.remove('hidden');
+    }
+
+    // Step 2: Boot up the Embedder and Database in parallel
+    async function init() {
+      try {
+        // Load database JSON index
+        statusText.innerText = "Loading database...";
+        const dbResponse = await fetch('xkcd_embeddings.json');
+        if (!dbResponse.ok) {
+          throw new Error("Could not find xkcd_embeddings.json");
+        }
+        database = await dbResponse.json();
+        
+        const count = Object.keys(database).length;
+        metricsDiv.innerText = `Database: ${count.toLocaleString()} comics loaded`;
+
+        // Initialize the Hugging Face Pipeline
+        statusText.innerText = "Loading AI Embedder model...";
+        // Xenova/all-MiniLM-L6-v2 is the exact equivalent of sentence-transformers/all-MiniLM-L6-v2
+        embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+
+        // Update UI status to completely active
+        modelStatus.className = "flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20 text-xs text-emerald-400";
+        statusText.innerText = "Neural Search Engine Active";
+        queryInput.disabled = false;
+        queryInput.placeholder = "Search the xkcd vault...";
+        
+        renderWelcomeState();
+      } catch (err) {
+        console.error(err);
+        modelStatus.className = "flex items-center gap-2 bg-rose-500/10 px-3 py-1.5 rounded-full border border-rose-500/20 text-xs text-rose-400";
+        statusText.innerText = "Failed initialization";
+        resultsList.innerHTML = `
+          <div class="text-center py-12 border border-dashed border-rose-900 bg-rose-950/10 rounded-2xl text-rose-300">
+            <i data-lucide="x-circle" class="w-10 h-10 text-rose-500 mx-auto mb-3"></i>
+            <p class="font-medium text-sm">Initialization Failed</p>
+            <p class="text-xs text-rose-400/80 mt-1">Make sure you run 'generate_embeddings.py' first and start a local HTTP server.</p>
+          </div>
+        `;
+        lucide.createIcons();
+      }
+    }
+
+    function renderWelcomeState() {
+      resultsList.innerHTML = `
+        <div class="text-center py-16 border border-dashed border-slate-800 rounded-2xl bg-slate-950/10">
+          <i data-lucide="search" class="w-10 h-10 text-indigo-500/40 mx-auto mb-3"></i>
+          <p class="text-slate-300 font-medium text-sm">Ready to Search</p>
+          <p class="text-slate-500 text-xs mt-1 max-w-sm mx-auto">Type any concept or scenario in the box above to perform a conceptual vector search across the xkcd catalog!</p>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Step 3: Run semantic search matching
+    async function performSearch(query) {
+      if (!query.trim()) {
+        renderWelcomeState();
+        return;
+      }
+
+      resultsList.innerHTML = `
+        <div class="text-center py-16 border border-dashed border-slate-800 rounded-2xl bg-slate-950/10">
+          <svg class="animate-spin h-8 w-8 text-indigo-500 mx-auto mb-3" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="text-slate-400 text-sm">Computing vector coordinates for query...</p>
+        </div>
+      `;
+
+      // 3a. Generate embedding vector for user query in the browser
+      const output = await embedder(query, { pooling: 'mean', normalize: true });
+      const queryEmbedding = Array.from(output.data);
+
+      // 3b. Calculate similarity for each comic in our database
+      const scoredResults = [];
+      for (const [id, comic] of Object.entries(database)) {
+        if (!comic.embedding) continue;
+        const score = cosineSimilarity(queryEmbedding, comic.embedding);
+        scoredResults.push({ id, ...comic, score });
+      }
+
+      // Sort by descending similarity score
+      scoredResults.sort((a, b) => b.score - a.score);
+
+      // Get user limits
+      const limit = parseInt(document.getElementById('limitSelect').value, 10);
+      const topHits = scoredResults.slice(0, limit);
+
+      if (topHits.length === 0) {
+        resultsList.innerHTML = `
+          <div class="text-center py-12 border border-dashed border-slate-800 rounded-2xl">
+            <p class="text-slate-500 text-sm">No vector-mapped entries found in your JSON database. Run 'generate_embeddings.py' first!</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Render search results cards
+      resultsList.innerHTML = topHits.map((hit, index) => {
+        const scorePercent = (hit.score * 100).toFixed(1);
+        const relativeImgPath = `xkcd/${hit.folder}/${hit.id}.png`; // fallback if local folder scheme is used
+        
+        return `
+          <div class="bg-slate-800/40 hover:bg-slate-800/70 border border-slate-800 rounded-2xl p-6 transition-all shadow-md hover:shadow-xl flex flex-col md:flex-row gap-6">
+            <div class="flex-grow flex flex-col justify-between order-2 md:order-1 gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    ${scorePercent}% Semantic Match
+                  </span>
+                  <span class="text-xs text-slate-500">ID: #${hit.id}</span>
+                </div>
+                <h3 class="text-xl font-bold text-slate-100 mb-2">
+                  <a href="https://xkcd.com/${hit.id}" target="_blank" class="hover:text-indigo-400 hover:underline">
+                    ${hit.title}
+                  </a>
+                </h3>
+                <p class="text-sm text-slate-300 leading-relaxed italic bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80">
+                  "${hit.alt}"
+                </p>
+              </div>
+              
+              <div class="text-xs text-slate-500 flex flex-wrap items-center gap-4 border-t border-slate-800/60 pt-4">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="folder" class="w-4 h-4"></i>
+                  xkcd/${hit.folder}/
+                </span>
+                <a href="https://xkcd.com/${hit.id}" target="_blank" class="text-indigo-400 hover:underline flex items-center gap-1">
+                  View Original <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+            
+            <div class="w-full md:w-60 h-auto shrink-0 order-1 md:order-2 flex items-center justify-center bg-white p-4 rounded-xl shadow-lg border border-slate-700/50">
+              <img 
+                src="${hit.img_url}" 
+                alt="${hit.title}" 
+                onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png';" 
+                class="max-w-full max-h-48 object-contain"
+              />
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // Debounce wrapper to prevent spamming vector generation on every keystroke
+    let debounceTimer;
+    queryInput.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        performSearch(e.target.value);
+      }, 500);
+    });
+
+    document.getElementById('limitSelect').addEventListener('change', () => {
+      performSearch(queryInput.value);
+    });
+
+    // Run Initialization on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      init();
+    });
+  </script>
+</body>
+</html>
