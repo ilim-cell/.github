@@ -14,6 +14,10 @@
 
 :shipit: kind of a bit squirrelish
 
+> [!IMPORTANT]
+> this is the quote of the month
+> "If it compiles, it works. If it doesn't, it's a feature™."
+
 ---
 
 <details>
