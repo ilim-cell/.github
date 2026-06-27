@@ -5,6 +5,18 @@ import subprocess
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+# Standard English stop words to ignore during exact keyword matching
+STOP_WORDS = {
+    "the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", 
+    "with", "by", "about", "against", "between", "into", "through", "during", 
+    "before", "after", "above", "below", "of", "up", "down", "out", "off", 
+    "over", "under", "again", "further", "then", "once", "here", "there", 
+    "when", "where", "why", "how", "all", "any", "both", "each", "few", 
+    "more", "most", "other", "some", "such", "no", "nor", "not", "only", 
+    "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", 
+    "just", "don", "should", "now"
+}
+
 def cosine_similarity(v1, v2):
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
@@ -44,6 +56,25 @@ def parse_query_from_event():
             query_str = title.strip()
 
     return query_str, issue_number
+
+def calculate_keyword_boost(query_str, title, alt, ocr_text):
+    """Calculates a score boost based on exact keyword overlaps."""
+    # Clean and split the query into individual keywords, ignoring common stop words
+    clean_query = re.sub(r'[^a-z0-9\s]', ' ', query_str.lower())
+    query_words = [w for w in clean_query.split() if w not in STOP_WORDS and len(w) > 1]
+    
+    if not query_words:
+        return 0.0
+
+    # Combine all comic text data for lookup
+    searchable_pool = f"{title} {alt} {ocr_text}".lower()
+    
+    # Count how many of the clean query words exist in the comic text
+    matches = sum(1 for word in query_words if word in searchable_pool)
+    
+    # We assign up to a +0.20 (20%) boost if there is a 100% keyword match
+    match_ratio = matches / len(query_words)
+    return match_ratio * 0.20
 
 def main():
     # 1. Retrieve the query and issue number natively from the event context
@@ -85,38 +116,48 @@ def main():
     # 4. Score all archive entries
     results = []
     for num, details in archive_index.items():
-        # Prevent crashes if a comic entry doesn't have an embedding yet
         if "embedding" not in details:
             continue
             
-        score = cosine_similarity(query_vector, details["embedding"])
+        # Base Semantic Cosine Score (typically ranges from 0.0 to 1.0)
+        semantic_score = cosine_similarity(query_vector, details["embedding"])
         
-        # Safely determine the folder name (fallback to slug if missing)
+        # Calculate Keyword Match Boost (up to +0.20)
+        title = details.get("title", "Untitled")
+        alt = details.get("alt", "")
+        ocr_text = details.get("ocr_text") or details.get("transcript") or ""
+        
+        keyword_boost = calculate_keyword_boost(query_str, title, alt, ocr_text)
+        
+        # Combined Hybrid Score (capped at 1.0 / 100%)
+        final_score = min(1.0, semantic_score + keyword_boost)
+        
+        # Safely determine the folder name
         folder = details.get("folder")
         if not folder:
-            folder = f"{slugify(details.get('title', 'untitled'))}_{num}"
+            folder = f"{num}_{slugify(title)}"
             
         results.append((
-            score, 
+            final_score, 
             num, 
-            details.get("title", "Untitled"), 
+            title, 
             folder, 
-            details.get("alt", ""), 
+            alt, 
             details.get("img_url", "")
         ))
 
-    # Sort descending by similarity score
+    # Sort descending by our new Hybrid score
     results.sort(key=lambda x: x[0], reverse=True)
 
     # 5. Generate the markdown comment output
-    comment_body = f"### 🔎 Search Results for: *\"{query_str}\"*\n\n"
-    comment_body += "Here are the top conceptual matches found:\n\n"
+    comment_body = f"### 🔎 Semantic Search Results for: *\"{query_str}\"*\n\n"
+    comment_body += "Here are the top conceptual matches found in the archive:\n\n"
     
     # Take top 3 hits
     for score, num, title, folder, alt, img_url in results[:3]:
         match_percentage = score * 100
-        # Give a visual warning indicator if context matching is low
-        indicator = "🟢" if match_percentage > 45 else "🟡"
+        # More accurate match classification indicators
+        indicator = "🟢" if match_percentage > 50 else "🟡"
         
         comment_body += (
             f"#### {indicator} **[{match_percentage:.1f}% Match]** "
@@ -128,6 +169,7 @@ def main():
             
         comment_body += "---\n"
         
+    comment_body += "\n*🤖 This lookup was processed serverless using a hybrid semantic vector + keyword overlap search strategy.*"
     comment_body += "\n\n---\n"
     comment_body += "🔒 **This thread has been locked to prevent spam.** If this recommendation was helpful, please click the **Close issue** button below! ✨"
 
