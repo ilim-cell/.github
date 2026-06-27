@@ -5,7 +5,7 @@ import subprocess
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Standard English stop words to ignore during exact keyword matching
+# Standard common words to filter out during keyword matching
 STOP_WORDS = {
     "the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", 
     "with", "by", "about", "against", "between", "into", "through", "during", 
@@ -58,23 +58,50 @@ def parse_query_from_event():
     return query_str, issue_number
 
 def calculate_keyword_boost(query_str, title, alt, ocr_text):
-    """Calculates a score boost based on exact keyword overlaps."""
-    # Clean and split the query into individual keywords, ignoring common stop words
+    """Calculates a massive score boost based on exact keyword and phrase matches."""
+    # 1. Clean punctuation from both the query and the comic text pools
     clean_query = re.sub(r'[^a-z0-9\s]', ' ', query_str.lower())
     query_words = [w for w in clean_query.split() if w not in STOP_WORDS and len(w) > 1]
     
     if not query_words:
         return 0.0
 
-    # Combine all comic text data for lookup
-    searchable_pool = f"{title} {alt} {ocr_text}".lower()
+    # Remove punctuation from pools so exact quotes match perfectly
+    title_pool = re.sub(r'[^a-z0-9\s]', ' ', title.lower())
+    general_pool = re.sub(r'[^a-z0-9\s]', ' ', f"{alt} {ocr_text}".lower())
     
-    # Count how many of the clean query words exist in the comic text
-    matches = sum(1 for word in query_words if word in searchable_pool)
-    
-    # We assign up to a +0.20 (20%) boost if there is a 100% keyword match
+    matches = 0
+    title_matches = 0
+
+    # 2. Score individual words with basic plural stemming
+    for word in query_words:
+        singular = word[:-1] if word.endswith('s') else word
+        
+        # Check title pool with word boundaries
+        if f" {word} " in f" {title_pool} " or (len(singular) > 2 and f" {singular} " in f" {title_pool} "):
+            title_matches += 1
+            matches += 1
+        # Check general text pool with word boundaries
+        elif f" {word} " in f" {general_pool} " or (len(singular) > 2 and f" {singular} " in f" {general_pool} "):
+            matches += 1
+            
     match_ratio = matches / len(query_words)
-    return match_ratio * 0.20
+    
+    # 3. Base Boost: Up to +0.40 for hitting all keywords (double the previous amount)
+    boost = match_ratio * 0.40
+    
+    # 4. Title Bonus: Up to +0.30 extra for hitting title words specifically
+    boost += (title_matches / len(query_words)) * 0.30
+    
+    # 5. Exact Phrase Bonus: Massive rocket boost for quoting a comic exactly
+    raw_clean_phrase = " ".join(clean_query.split())
+    if len(raw_clean_phrase) > 5:
+        if raw_clean_phrase in title_pool:
+            boost += 0.80  # Automatic top result for exact title match
+        elif raw_clean_phrase in general_pool:
+            boost += 0.60  # Automatic top result for exact transcript quote
+            
+    return boost
 
 def main():
     # 1. Retrieve the query and issue number natively from the event context
@@ -116,10 +143,11 @@ def main():
     # 4. Score all archive entries
     results = []
     for num, details in archive_index.items():
+        # Prevent crashes if a comic entry doesn't have an embedding yet
         if "embedding" not in details:
             continue
             
-        # Base Semantic Cosine Score (typically ranges from 0.0 to 1.0)
+        # Base Semantic Cosine Score (ranges from 0.0 to 1.0)
         semantic_score = cosine_similarity(query_vector, details["embedding"])
         
         # Calculate Keyword Match Boost (up to +0.20)
@@ -129,10 +157,10 @@ def main():
         
         keyword_boost = calculate_keyword_boost(query_str, title, alt, ocr_text)
         
-        # Combined Hybrid Score (capped at 1.0 / 100%)
+        # Combined Hybrid Score (capped at 1.0)
         final_score = min(1.0, semantic_score + keyword_boost)
         
-        # Safely determine the folder name
+        # Safely determine the folder name (fallback to slug if missing)
         folder = details.get("folder")
         if not folder:
             folder = f"{num}_{slugify(title)}"
@@ -150,14 +178,14 @@ def main():
     results.sort(key=lambda x: x[0], reverse=True)
 
     # 5. Generate the markdown comment output
-    comment_body = f"### 🔎 Semantic Search Results for: *\"{query_str}\"*\n\n"
-    comment_body += "Here are the top conceptual matches found in the archive:\n\n"
+    comment_body = f"### 🔎 Hybrid Search Results for: *\"{query_str}\"*\n\n"
+    comment_body += "Here are the top conceptual and keyword matches found in the archive:\n\n"
     
     # Take top 3 hits
     for score, num, title, folder, alt, img_url in results[:3]:
         match_percentage = score * 100
-        # More accurate match classification indicators
-        indicator = "🟢" if match_percentage > 50 else "🟡"
+        # Give a visual indicator based on score strength
+        indicator = "🟢" if match_percentage > 48 else "🟡"
         
         comment_body += (
             f"#### {indicator} **[{match_percentage:.1f}% Match]** "
@@ -169,7 +197,7 @@ def main():
             
         comment_body += "---\n"
         
-    comment_body += "\n*🤖 This lookup was processed serverless using a hybrid semantic vector + keyword overlap search strategy.*"
+    comment_body += "\n*🤖 This lookup was processed serverless using a hybrid semantic vector + keyword overlap search strategy on a GitHub runner.*"
     comment_body += "\n\n---\n"
     comment_body += "🔒 **This thread has been locked to prevent spam.** If this recommendation was helpful, please click the **Close issue** button below! ✨"
 
