@@ -16,9 +16,15 @@
 
 > [!IMPORTANT]
 > this is the quote of the month
-> "If it compiles, it works. If it doesn't, it's a feature™."
+> 
+> *"If it compiles, it works. If it doesn't, it's a feature™"*
 
----
+
+### XKCD
+<a href="https://xkcd.com" target="_blank" rel="noopener noreferrer">
+  <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="Latest xkcd" />
+</a>
+[credit: xkcd](https://xkcd.com)
 
 <details>
   <summary><b>🔧 formal version</b></summary>
