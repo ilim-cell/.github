@@ -26,15 +26,26 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMENT_URL=$(gh issue comment ${{ github.event.issue.number }} --body "⏳ **Search has started...** The high-speed BM25 search engine is processing your query. Results will be posted here momentarily!")
+          COMMENT_URL=$(gh issue comment ${{ github.event.issue.number }} --body "⏳ **Search has started...** The high-speed Typesense search engine is processing your query. Results will be posted here momentarily!")
           COMMENT_ID=$(echo "$COMMENT_URL" | grep -oE '[0-9]+$')
           echo "comment_id=$COMMENT_ID" >> $GITHUB_OUTPUT
 
-  # JOB 2: Pure Python Search Engine (No installation steps required!)
+  # JOB 2: Typesense Search Engine (Powered by local Docker container service)
   compute-search:
-    name: Weighted BM25 Search Engine
+    name: Typesense Search Engine
     needs: initialize
     runs-on: ubuntu-latest
+    
+    # Run Typesense container as a service container adjacent to the build job
+    services:
+      typesense:
+        image: typesense/typesense:26.0
+        ports:
+          - 8108:8108
+        env:
+          TYPESENSE_API_KEY: xkcd-search-secret-key-123
+          TYPESENSE_DATA_DIR: /tmp/typesense-data
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -44,10 +55,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      # No dependency installations, no caching needed, just run!
-      - name: Execute Weighted BM25 Search & Auto-Rename
+      # Install the official Python client for Typesense
+      - name: Install Search client dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install typesense
+
+      # Run search script with connection credentials pointing to sidecar container
+      - name: Execute Typesense Search & Auto-Rename
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TYPESENSE_API_KEY: xkcd-search-secret-key-123
+          TYPESENSE_HOST: localhost
+          TYPESENSE_PORT: 8108
         run: |
           python .github/scripts/issue_search.py
 
