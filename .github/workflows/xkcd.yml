@@ -32,8 +32,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # Stage both the README and the freshly downloaded image
-          git add README.md img/xkcd.png
+          # Stage the specific profile readme path and the image
+          git add profile/README.md img/xkcd.png
           
           # Only commit if something actually changed
           git diff-index --quiet HEAD || git commit -m "chore: auto-update latest xkcd comic and image"
