@@ -11,5 +11,7 @@ body:
   - type: checkboxes
     id: select
     attributes:
+      label: Search Options
       options: 
-        - label: "-"
+        - label: Include text in images
+          required: true
