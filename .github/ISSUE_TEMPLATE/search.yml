@@ -1,6 +1,6 @@
 name: 🔎 Search
 description: Search all xkcd comics by concept, joke, or meaning.
-title: "Search"
+title: ""
 labels: ["xkcd-search"]
 body:
   - type: markdown
