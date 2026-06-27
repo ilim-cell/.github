@@ -35,7 +35,7 @@ jobs:
           cache: 'pip'
 
       - name: Install Compute Dependencies
-        run: pip install sentence-transformers numpy
+        run: pip install -r requirements.txt
 
       - name: Execute Model Cross-Referencing & Auto-Rename
         env:

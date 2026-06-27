@@ -27,8 +27,8 @@ jobs:
           cache: 'pip' # Speeds up consecutive downloads for sentence transformers
 
       - name: Install Python Dependencies
-        run: pip install requests pytesseract Pillow sentence-transformers numpy
-
+        run: pip install -r requirements.txt
+      
       - name: Fetch XKCD, OCR, and Update Embedding Matrix
         run: python .github/scripts/update_xkcd.py
 
