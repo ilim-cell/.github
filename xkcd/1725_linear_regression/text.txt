@@ -1,0 +1,4 @@
+Title: Linear Regression
+Comic Number: 1725
+Alt Text: The 95% confidence interval suggests Rexthor's dog could also be a cat, or possibly a teapot.
+Transcript: Sample transcript or OCR output for comic #1725

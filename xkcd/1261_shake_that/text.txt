@@ -1,0 +1,14 @@
+Title: Shake That
+Comic Number: 1261
+Alt Text: How do I work it? IT'S ALREADY WORKING!
+Transcript: [[A woman stands in a disco, surrounded by dancing figures. She looks confused.]]
+PA system: Shake what your mama gave you
+Woman: ???
+
+[[The woman walks out of the club door.]]
+
+[[We see a mug on a table, labelled "World's Greatest Daughter".]]
+
+[[The woman shakes the mug.]]
+
+{{Title text: How do I work it? IT'S ALREADY WORKING!}}

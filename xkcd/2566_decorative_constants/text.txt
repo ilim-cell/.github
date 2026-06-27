@@ -1,0 +1,4 @@
+Title: Decorative Constants
+Comic Number: 2566
+Alt Text: Arguably, the '1/2' in the drag equation is purely decorative, since drag coefficients are already unitless and could just as easily be half as big. Some derivations give more justification for the extra 1/2 than others, but one textbook just calls it 'a traditional tribute to Euler and Bernoulli.'
+Transcript: Sample transcript or OCR output for comic #2566

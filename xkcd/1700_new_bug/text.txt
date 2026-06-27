@@ -1,0 +1,4 @@
+Title: New Bug
+Comic Number: 1700
+Alt Text: There's also a unicode-handling bug in the URL request library, and we're storing the passwords unsalted ... so if we salt them with emoji, we can close three issues at once!
+Transcript: Sample transcript or OCR output for comic #1700

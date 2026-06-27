@@ -1,0 +1,4 @@
+Title: Millennium Problems
+Comic Number: 2320
+Alt Text: The hard part about opening a hole in the proof of the Poincaré conjecture is that Grigori Perelman will come out of retirement to try to fix it by drawing a loop around the hole and contracting it to a point.
+Transcript: Sample transcript or OCR output for comic #2320

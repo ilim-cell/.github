@@ -1,0 +1,4 @@
+Title: XKCDE
+Comic Number: 1764
+Alt Text: 4. They unplug the root machine but the thousands of leaf VMs scatter in the wind and start spinning up new instances wherever they land
+Transcript: Sample transcript or OCR output for comic #1764

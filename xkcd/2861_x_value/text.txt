@@ -1,0 +1,4 @@
+Title: X Value
+Comic Number: 2861
+Alt Text: The value of n is still unknown, but new results constrain it to fall between 8 and 10^500, ruling out popular 'n=1' and 'n=2' theories.
+Transcript: Sample transcript or OCR output for comic #2861

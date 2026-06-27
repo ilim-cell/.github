@@ -1,0 +1,4 @@
+Title: Jumping Frog Radius
+Comic Number: 3181
+Alt Text: Earth's r_jf is approximately 1.5 light-days, leading to general relativity's successful prediction that all the frogs in the Solar System should be found collected on the surface of the Earth.
+Transcript: Sample transcript or OCR output for comic #3181

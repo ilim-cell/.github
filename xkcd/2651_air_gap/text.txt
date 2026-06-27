@@ -1,0 +1,4 @@
+Title: Air Gap
+Comic Number: 2651
+Alt Text: You can still do powerline networking, but the bitrate does drop a little depending on the lightbulb warmup and cooldown delay.
+Transcript: Sample transcript or OCR output for comic #2651

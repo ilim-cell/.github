@@ -1,0 +1,4 @@
+Title: Throw
+Comic Number: 2198
+Alt Text: this calculator implements the simple throwing distance estimation model from the how to throw things chapter of the book how to
+Transcript: Sample transcript or OCR output for comic #2198

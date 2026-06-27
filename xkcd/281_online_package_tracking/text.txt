@@ -1,0 +1,13 @@
+Title: Online Package Tracking
+Comic Number: 281
+Alt Text: I don't even *want* this package!  Why did I join the stinging insect of the month club, anyway?
+Transcript: {{Online Package Tracking}}
+{{_Pros_: Convenient, Useful}}
+{{_Cons_: Makes You Crazy}}
+[[A person is sitting at a computer.]]
+<<refresh>>
+Person: Aww, still in Memphis.
+<<refresh>>
+Person: Aww, still in Memphis.
+<<refresh>>
+Person: Aww, still in Memphis.

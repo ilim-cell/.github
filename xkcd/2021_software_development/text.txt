@@ -1,0 +1,4 @@
+Title: Software Development
+Comic Number: 2021
+Alt Text: Update: It turns out the cannon has a motorized base, and can make holes just fine using the barrel itself as a battering ram. But due to design constraints it won't work without a projectile loaded in, so we still need those drills.
+Transcript: Sample transcript or OCR output for comic #2021

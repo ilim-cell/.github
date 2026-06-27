@@ -1,0 +1,4 @@
+Title: Violin Plots
+Comic Number: 1967
+Alt Text: Strictly speaking, 'violin' refers to the internal structure of the data. The external portion visible in the plot is called the 'viola.'
+Transcript: Sample transcript or OCR output for comic #1967

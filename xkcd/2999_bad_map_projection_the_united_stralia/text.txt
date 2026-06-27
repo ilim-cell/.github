@@ -1,0 +1,4 @@
+Title: Bad Map Projection: The United Stralia
+Comic Number: 2999
+Alt Text: This projection distorts both area and direction, but preserves Melbourne.
+Transcript: Sample transcript or OCR output for comic #2999

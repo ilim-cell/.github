@@ -1,0 +1,4 @@
+Title: Hacking
+Comic Number: 1808
+Alt Text: The dump also contains a list of millions of prime factors, a 0-day Tamagotchi exploit, and a technique for getting gcc and bash to execute arbitrary code.
+Transcript: Sample transcript or OCR output for comic #1808

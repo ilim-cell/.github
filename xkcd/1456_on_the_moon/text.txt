@@ -1,0 +1,9 @@
+Title: On the Moon
+Comic Number: 1456
+Alt Text: "I believe that this nation should commit itself to achieving the goal, before this decade is out, of landing a man on Venus and returning him safely to--" [an aide frantically whispers in the president's ear for a moment] "... of landing a man on Venus."
+Transcript: [[Two people are walking along together.]]
+Person 1: If we could land a man on the moon, why can't we -
+Person 2: - land a man on the moon?
+Person 1: ...ok, fair. But we're working on it, ok? 
+
+{{Title text: "I believe that this nation should commit itself to achieving the goal, before this decade is out, of landing a man on Venus and returning him safely to--" [an aide frantically whispers in the president's ear for a moment] "... of landing a man on Venus."}}

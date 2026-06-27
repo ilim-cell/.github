@@ -1,0 +1,4 @@
+Title: Factorial Numbers
+Comic Number: 2835
+Alt Text: So what do we do when we get to base 10? Do we use A, B, C, etc? No: Numbers larger than about 3.6 million are simply illegal.
+Transcript: Sample transcript or OCR output for comic #2835

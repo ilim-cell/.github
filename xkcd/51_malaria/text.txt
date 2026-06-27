@@ -1,0 +1,6 @@
+Title: Malaria
+Comic Number: 51
+Alt Text: The malaria party was David's idea
+Transcript: [[People wearing party hat, a discarded balloon to the side]]
+We had a malaria party, but it turned out not to be very much fun.
+{{title text: The malaria party was David's idea.}}

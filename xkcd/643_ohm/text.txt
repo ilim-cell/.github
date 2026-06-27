@@ -1,0 +1,9 @@
+Title: Ohm
+Comic Number: 643
+Alt Text: More generally, with great power comes great dEnergy/dt.
+Transcript: [[A man is holding another by the shoulders.]]
+Sitting man: Remember: With great power comes great current squared times resistance.
+Narrator: Ohm never forgot his dying uncle's advice.
+
+{{Title text: More generally, with great power comes great dEnergy
+dt.}}

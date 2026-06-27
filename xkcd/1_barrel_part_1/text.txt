@@ -1,0 +1,7 @@
+Title: Barrel - Part 1
+Comic Number: 1
+Alt Text: Don't we all.
+Transcript: [[A boy sits in a barrel which is floating in an ocean.]]
+Boy: I wonder where I'll float next?
+[[The barrel drifts into the distance. Nothing else can be seen.]]
+{{Alt: Don't we all.}}

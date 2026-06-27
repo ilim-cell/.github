@@ -1,0 +1,13 @@
+Title: Engineering Hubris
+Comic Number: 319
+Alt Text: Chuck Jones is a vengeful god.
+Transcript: [[ Landscape in the background, canyon with a winding road ]]
+Maybe engineering is the pursuit of an unattainable perfection.
+Maybe it's impossible to create something bug-free.
+Maybe I'm a fool
+Maybe the tyranny of Murphy is the penalty for hubris.
+But I just can't shake the feeling
+[[ man standing on a box labeled "ACME" ]]
+With all those supplies
+_I_ could have caught that roadrunner.
+{{Alt: Chuck Jones is a vengeful god. }}

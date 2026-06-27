@@ -1,0 +1,4 @@
+Title: Making Progress
+Comic Number: 1906
+Alt Text: I started off with countless problems. But now I know, thanks to COUNT(), that I have "#REF! ERROR: Circular dependency detected" problems.
+Transcript: Sample transcript or OCR output for comic #1906

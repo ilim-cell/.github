@@ -1,0 +1,11 @@
+Title: Universal Install Script
+Comic Number: 1654
+Alt Text: The failures usually don't hurt anything, and if it installs several versions, it increases the chance that one of them is right. (Note: The 'yes' command and '2>/dev/null' are recommended additions.)
+Transcript: [[A person looking at their phone. Their text conversation is displayed above their head.]]
+A: I'll be in your city tomorrow if you want to hang out.
+B: But where will you be I 
+don't
+ want to hang out?!
+A: You know, I just remembered I'm busy.
+Why I try not to be pedantic about conditionals.
+{{Title text: 'If you're done being pedantic, we should get dinner.' 'You did it again!' 'No, I didn't.'}}

@@ -1,0 +1,8 @@
+Title: Sandwich
+Comic Number: 149
+Alt Text: Proper User Policy apparently means Simon Says.
+Transcript: [[ A man is sitting on a couch, talking to another man.  They are both stick figures. ]]
+First man:  Make me a sandwich.
+Second man:  What?  Make it yourself.
+First man:  Sudo make me a sandwich.
+Second man:  Okay

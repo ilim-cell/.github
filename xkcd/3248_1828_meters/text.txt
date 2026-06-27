@@ -1,0 +1,4 @@
+Title: 182.8 Meters
+Comic Number: 3248
+Alt Text: They rounded down to 182.8 instead of rounding up to 182.9 because 182.9 might make the statement incorrect.
+Transcript: Sample transcript or OCR output for comic #3248

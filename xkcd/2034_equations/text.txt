@@ -1,0 +1,4 @@
+Title: Equations
+Comic Number: 2034
+Alt Text: All electromagnetic equations: The same as all fluid dynamics equations, but with the 8 and 23 replaced with the permittivity and permeability of free space, respectively.
+Transcript: Sample transcript or OCR output for comic #2034

@@ -1,0 +1,4 @@
+Title: Day Counter
+Comic Number: 3228
+Alt Text: It has been −2,147,483,648 days since our last integer overflow.
+Transcript: Sample transcript or OCR output for comic #3228

@@ -1,0 +1,4 @@
+Title: xkcd Phone 12
+Comic Number: 2377
+Alt Text: New phone OS features: Infinite customization (home screen icons no longer snap to grid), dark mode (disables screen), screaming mode (self-explanatory), and coherent ultracapacitor-pumped emission (please let us know what this setting does; we've been afraid to try it).
+Transcript: Sample transcript or OCR output for comic #2377

@@ -1,0 +1,4 @@
+Title: Scientific Paper Graph Quality
+Comic Number: 1945
+Alt Text: The worst are graphs with qualitative, vaguely-labeled axes and very little actual data.
+Transcript: Sample transcript or OCR output for comic #1945

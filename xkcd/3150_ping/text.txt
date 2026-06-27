@@ -1,0 +1,4 @@
+Title: Ping
+Comic Number: 3150
+Alt Text: Progress on getting shipwrecked sailors to adopt ICMPv6 has been slow.
+Transcript: Sample transcript or OCR output for comic #3150

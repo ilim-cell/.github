@@ -1,0 +1,4 @@
+Title: Hottest Editors
+Comic Number: 1823
+Alt Text: Elon Musk finally blocked me from the internal Tesla repository because I wouldn't stop sending pull requests for my code supporting steering via vim keybindings.
+Transcript: Sample transcript or OCR output for comic #1823

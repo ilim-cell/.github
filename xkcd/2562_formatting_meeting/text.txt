@@ -1,0 +1,4 @@
+Title: Formatting Meeting
+Comic Number: 2562
+Alt Text: Neither group uses iso 8601 because the big-endian enthusiasts were all at the meeting 20 years ago.
+Transcript: Sample transcript or OCR output for comic #2562

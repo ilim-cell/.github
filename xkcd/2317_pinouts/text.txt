@@ -1,0 +1,4 @@
+Title: Pinouts
+Comic Number: 2317
+Alt Text: The other side of USB-C is rotationally symmetric except that the 3rd pin from the top is designated FIREWIRE TRIBUTE PIN.
+Transcript: Sample transcript or OCR output for comic #2317

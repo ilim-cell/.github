@@ -27,6 +27,8 @@
 </a>
 <!-- xkcd-end -->
 
+#### Note: this repository also hosts a very large semantic XKCD search engine! It somehow got added in in the chaos. [Start a search](https://github.com/ilim-cell/.github/issues/new?template=search.yml)
+
 [credit: xkcd](https://xkcd.com)
 
 <details>

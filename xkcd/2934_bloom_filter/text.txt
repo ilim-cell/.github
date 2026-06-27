@@ -1,0 +1,4 @@
+Title: Bloom Filter
+Comic Number: 2934
+Alt Text: Sometimes, you can tell Bloom filters are the wrong tool for the job, but when they're the right one you can never be sure.
+Transcript: Sample transcript or OCR output for comic #2934

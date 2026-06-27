@@ -1,0 +1,4 @@
+Title: Linked List Interview Problem
+Comic Number: 2483
+Alt Text: I'd traverse it myself, but it's singly linked, so I'm worried that I won't be able to find my way back to 2021.
+Transcript: Sample transcript or OCR output for comic #2483

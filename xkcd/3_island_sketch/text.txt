@@ -1,0 +1,5 @@
+Title: Island (sketch)
+Comic Number: 3
+Alt Text: Hello, island
+Transcript: [[A sketch of an Island]]
+{{Alt:Hello, island}}

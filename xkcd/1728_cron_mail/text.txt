@@ -1,0 +1,4 @@
+Title: Cron Mail
+Comic Number: 1728
+Alt Text: Take THAT, piece of 1980s-era infrastructure I've inexplicably maintained on my systems for 15 years despite never really learning how it works.
+Transcript: Sample transcript or OCR output for comic #1728

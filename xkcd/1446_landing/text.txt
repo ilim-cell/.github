@@ -1,0 +1,12 @@
+Title: Landing
+Comic Number: 1446
+Alt Text: [LIVE]
+Transcript: ((The current status of Philae, the lander that accompanied the Rosetta spacecraft in order to land on comet 67P
+ChuryumovGerasimenko. A very thorough explanation of the comic is available here: http:
+
+www.explainxkcd.com
+wiki
+index.php
+1446:_Landing ))
+
+{{Title text: [LIVE]}}

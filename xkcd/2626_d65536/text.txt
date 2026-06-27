@@ -1,0 +1,4 @@
+Title: d65536
+Comic Number: 2626
+Alt Text: They're robust against quantum attacks because it's hard to make a quantum system that large.
+Transcript: Sample transcript or OCR output for comic #2626

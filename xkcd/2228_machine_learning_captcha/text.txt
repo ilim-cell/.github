@@ -1,0 +1,4 @@
+Title: Machine Learning Captcha
+Comic Number: 2228
+Alt Text: More likely: Click on all the pictures of people who appear disloyal to [name of company or government]
+Transcript: Sample transcript or OCR output for comic #2228

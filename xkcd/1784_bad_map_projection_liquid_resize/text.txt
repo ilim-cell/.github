@@ -1,0 +1,4 @@
+Title: Bad Map Projection: Liquid Resize
+Comic Number: 1784
+Alt Text: This map preserves the shapes of Tissot's indicatrices pretty well, as long as you draw them in before running the resize.
+Transcript: Sample transcript or OCR output for comic #1784

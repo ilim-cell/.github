@@ -1,0 +1,4 @@
+Title: Off By One
+Comic Number: 3062
+Alt Text: It does come at the small cost of a LOT more off-by-40-or-50 errors.
+Transcript: Sample transcript or OCR output for comic #3062

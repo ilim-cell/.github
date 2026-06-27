@@ -1,0 +1,4 @@
+Title: Complexity Analysis
+Comic Number: 2939
+Alt Text: PERPETUALLY OPTIMISTIC CASE: Early in the execution, our research group makes a breakthrough on proving P=NP.
+Transcript: Sample transcript or OCR output for comic #2939

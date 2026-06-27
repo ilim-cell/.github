@@ -1,0 +1,4 @@
+Title: A/B
+Comic Number: 2151
+Alt Text: We wrote our site in Linear A rather than Aksara Kawi because browser testing showed that Crete script rendered faster than Java script.
+Transcript: Sample transcript or OCR output for comic #2151

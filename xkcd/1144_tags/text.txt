@@ -1,0 +1,7 @@
+Title: Tags
+Comic Number: 1144
+Alt Text: <A>: Like </a>this.&nbsp;
+Transcript: [[A line of html that reads, "<div>Q: How do you annoy a web developer?<
+span>"]]
+{{Title text: <A>: Like <
+a>this.&nbsp;}}

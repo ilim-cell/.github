@@ -1,0 +1,4 @@
+Title: Ballot Tracker Tracker
+Comic Number: 2382
+Alt Text: Good luck to Democrats in the upcoming Georgia runoff elections, and to the Google Sheets SREs in the current run-on elections.
+Transcript: Sample transcript or OCR output for comic #2382

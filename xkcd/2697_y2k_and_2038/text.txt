@@ -1,0 +1,4 @@
+Title: Y2K and 2038
+Comic Number: 2697
+Alt Text: It's taken me 20 years, but I've finally finished rebuilding all my software to use 33-bit signed ints.
+Transcript: Sample transcript or OCR output for comic #2697

@@ -1,0 +1,11 @@
+Title: Payloads
+Comic Number: 1461
+Alt Text: With a space elevator, a backyard full of solar panels could launch about 500 horses per year, and a large power plant could launch 10 horses per minute.
+Transcript: ((This comic is an infographic. A very good transcription is available in complete form here: http:
+
+www.explainxkcd.com
+wiki
+index.php
+1461 ))
+
+{{Title text: With a space elevator, a backyard full of solar panels could launch about 500 horses per year, and a large power plant could launch 10 horses per minute.}}

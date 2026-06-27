@@ -1,0 +1,4 @@
+Title: Square Units
+Comic Number: 3065
+Alt Text: The biggest I've seen in a published source in the wild is an 80-fold error in a reported distance, which I think came from a series of at least three unit conversions and area/length misinterpretations.
+Transcript: Sample transcript or OCR output for comic #3065

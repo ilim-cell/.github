@@ -1,0 +1,4 @@
+Title: xkcd Phone 2000
+Comic Number: 2000
+Alt Text: Our retina display features hundreds of pixels per inch in the central fovea region.
+Transcript: Sample transcript or OCR output for comic #2000

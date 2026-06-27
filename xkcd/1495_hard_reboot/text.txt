@@ -1,0 +1,8 @@
+Title: Hard Reboot
+Comic Number: 1495
+Alt Text: Googling inevitably reveals that my problem is caused by a known bug triggered by doing [the exact combination of things I want to do]. I can fix it, or wait a few years until I don't want that combination of things anymore, using the kitchen timer until then.
+Transcript: Figuring out why my home server keeps running out of swap space and crashing: one to ten hours
+
+Plugging it into a light timer so it reboots every 24 hours: five minutes.
+
+{{Title text: Googling inevitably reveals that my problem is caused by a known bug triggered by doing [the exact combination of things I want to do]. I can fix it, or wait a few years until I don't want that combination of things anymore, using the kitchen timer until then.}}

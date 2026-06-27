@@ -1,0 +1,4 @@
+Title: X
+Comic Number: 2309
+Alt Text: The worst is when you run out of monospaced fonts and have to use variable-width variables.
+Transcript: Sample transcript or OCR output for comic #2309

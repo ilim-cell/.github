@@ -1,0 +1,4 @@
+Title: Meltdown and Spectre
+Comic Number: 1938
+Alt Text: New zero-day vulnerability: In addition to rowhammer, it turns out lots of servers are vulnerable to regular hammers, too.
+Transcript: Sample transcript or OCR output for comic #1938

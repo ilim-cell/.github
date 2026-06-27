@@ -1,0 +1,6 @@
+Title: Bowl
+Comic Number: 39
+Alt Text: For the moment it's a standoff
+Transcript: [[A boy is glaring at a model sailing ship floating in a bowl of water.]]
+Boy: Sooner or later, my friend, one of us will run out of time.
+{{Alt: For the moment it's a standoff}}

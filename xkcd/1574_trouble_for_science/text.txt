@@ -1,0 +1,11 @@
+Title: Trouble for Science
+Comic Number: 1574
+Alt Text: Careful mathematical analysis demonstrates small-scale irregularities in Gaussian distribution
+Transcript: [[A series of whitepaper headlines]]
+Many Commercial Antibody-Based Immunoassays Are Unreliable
+Problems With the p-value as an indicator of significance
+Overfeeding of laboratory rodents compromises animal models
+Replication study fails to reproduce many published results
+controlled trials show bunsen burners make things colder
+
+{{Title text: Careful mathematical analysis demonstrates small-scale irregularities in Gaussian distribution}}

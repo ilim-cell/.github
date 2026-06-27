@@ -1,0 +1,4 @@
+Title: Bad Map Projection: South America
+Comic Number: 2256
+Alt Text: The projection does a good job preserving both distance and azimuth, at the cost of really exaggerating how many South Americas there are.
+Transcript: Sample transcript or OCR output for comic #2256

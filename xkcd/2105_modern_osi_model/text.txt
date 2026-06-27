@@ -1,0 +1,4 @@
+Title: Modern OSI Model
+Comic Number: 2105
+Alt Text: In retrospect, I shouldn't have used each layer of the OSI model as one of my horcruxes.
+Transcript: Sample transcript or OCR output for comic #2105

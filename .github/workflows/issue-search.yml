@@ -2,32 +2,31 @@ name: Handle Semantic Search Issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened, labeled]
 
 permissions:
   issues: write
 
 jobs:
   semantic-lookup:
-    if: contains(github.event.issue.labels.*.name, 'xkcd-search')
+    # Runs if the issue has the search label OR if the title starts with "search:"
+    if: |
+      contains(github.event.issue.labels.*.name, 'xkcd-search') || 
+      startsWith(github.event.issue.title, 'search:')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Vault Repository
         uses: actions/checkout@v4
 
-      - name: Parse Query From Issue Form
-        id: parse
-        uses: eddiedebz/parse-issue-body-action@v2
-        with:
-          issue-body: ${{ github.event.issue.body }}
-
-      - name: Rename Issue to Match Search Query
-        # Uses built-in GitHub CLI to update the title to the user's actual search term
+      - name: Create Initial Status Comment
+        id: init_comment
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SEARCH_QUERY: ${{ steps.parse.outputs.query }}
         run: |
-          gh issue edit ${{ github.event.issue.number }} --title "$SEARCH_QUERY"
+          # Post the starting comment and extract its comment ID from the returned URL
+          COMMENT_URL=$(gh issue comment ${{ github.event.issue.number }} --body "⏳ **Search has started...** The neural search engine is spinning up to process your query. Results will be posted here momentarily!")
+          COMMENT_ID=$(echo "$COMMENT_URL" | grep -oE '[0-9]+$')
+          echo "COMMENT_ID=$COMMENT_ID" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -38,29 +37,21 @@ jobs:
       - name: Install Compute Dependencies
         run: pip install sentence-transformers numpy
 
-      - name: Execute Model Cross-Referencing
-        # Pass the parsed input box text securely into the runtime environment
+      - name: Execute Model Cross-Referencing & Auto-Rename
         env:
-          SEARCH_QUERY: ${{ steps.parse.outputs.query }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python .github/scripts/issue_search.py
 
-      - name: Read Search Results Content
-        id: results
+      - name: Edit Status Comment with Search Results
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Safe injection of markdown text body across lines into step outputs
-          EOF=$(dd if=/dev/urandom bs=15 count=1 2>/dev/null | base64)
-          echo "comment<<$EOF" >> $GITHUB_OUTPUT
-          cat search_results.md >> $GITHUB_OUTPUT
-          echo "$EOF" >> $GITHUB_OUTPUT
+          # Edit the exact comment we created at the start of the run
+          gh api -X PATCH repos/${{ github.repository }}/issues/comments/${{ env.COMMENT_ID }} -F body=@search_results.md
 
-      - name: Post Results Comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          body: ${{ steps.results.outputs.comment }}
-
-      - name: Auto-Close Issue
-        uses: peter-evans/close-issue@v3
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          comment: "Closing issue. Search completed successfully! ✨"
+      - name: Lock Conversation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Lock the issue conversation to prevent spam or extra replies
+          gh issue lock ${{ github.event.issue.number }} --reason "resolved"

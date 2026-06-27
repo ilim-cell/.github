@@ -1,0 +1,4 @@
+Title: Rotation
+Comic Number: 2671
+Alt Text: It's okay, we can just feed the one-pixel image into an AI upscaler and recover the original image, or at least one that's just as cool.
+Transcript: Sample transcript or OCR output for comic #2671

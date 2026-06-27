@@ -1,0 +1,5 @@
+Title: Landscape (sketch)
+Comic Number: 4
+Alt Text: There's a river flowing through the ocean
+Transcript: [[A sketch of a landscape with sun on the horizon]]
+{{Alt: There's a river flowing through the ocean}}

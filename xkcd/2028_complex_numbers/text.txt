@@ -1,0 +1,4 @@
+Title: Complex Numbers
+Comic Number: 2028
+Alt Text: I'm trying to prove that mathematics forms a meta-abelian group, which would finally confirm my suspicions that algebraic geometry and geometric algebra are the same thing.
+Transcript: Sample transcript or OCR output for comic #2028

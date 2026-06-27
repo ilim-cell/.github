@@ -1,0 +1,4 @@
+Title: Clickbait-Corrected p-Value
+Comic Number: 2001
+Alt Text: When comparing hypotheses with Bayesian methods, the similar 'clickbayes factor' can account for some harder-to-quantify priors.
+Transcript: Sample transcript or OCR output for comic #2001

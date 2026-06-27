@@ -1,0 +1,4 @@
+Title: Trained a Neural Net
+Comic Number: 2173
+Alt Text: It also works for anything you teach someone else to do. "Oh yeah, I trained a pair of neural nets, Emily and Kevin, to respond to support tickets."
+Transcript: Sample transcript or OCR output for comic #2173

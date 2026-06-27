@@ -1,0 +1,4 @@
+Title: Detector
+Comic Number: 3254
+Alt Text: No other experiment has a lower false negative rate.
+Transcript: Sample transcript or OCR output for comic #3254

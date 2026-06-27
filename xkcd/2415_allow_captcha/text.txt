@@ -1,0 +1,4 @@
+Title: Allow Captcha
+Comic Number: 2415
+Alt Text: To prove you're human, please click all the number pairs that appear together in your Social Security number.
+Transcript: Sample transcript or OCR output for comic #2415

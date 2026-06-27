@@ -1,0 +1,7 @@
+Title: LD50
+Comic Number: 1260
+Alt Text: The dose is much lower when administered orally. We're still trying to get the paper into the needles for subcutaneous injection.
+Transcript: [[A figure in a white coat lies on the floor, crushed beneath a giant pile of binders & paper. Two other figures in white coats stand next to him, looking on. One is holding a clipboard.]]
+The LD50 of toxicity data is 2 kilograms per kilogram.
+
+{{Title text: The dose is much lower when administered orally. We're still trying to get the paper into the needles for subcutaneous injection.}}

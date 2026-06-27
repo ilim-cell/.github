@@ -1,0 +1,8 @@
+Title: Six Words
+Comic Number: 1244
+Alt Text: Ahem. We are STRICTLY an Orbiter shop.
+Transcript: The six words you *never* say at NASA:
+[[A trajectory path involving multiple slingshots around Earth, Jupiter, and the Sun labeled "Oberth Kuiper Maneuver" is being presented by two people for a crowd]]
+And besides -- it works in Kerbal Space Program.
+
+{{Title text: Ahem. We are STRICTLY an Orbiter shop.}}

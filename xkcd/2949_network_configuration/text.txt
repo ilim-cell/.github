@@ -1,0 +1,4 @@
+Title: Network Configuration
+Comic Number: 2949
+Alt Text: If you repeatedly rerun the development of technological civilization, it turns out that for some reason the only constant is that there is always a networking utility called 'netcat', though it does a different thing in each one.
+Transcript: Sample transcript or OCR output for comic #2949

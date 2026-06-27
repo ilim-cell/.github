@@ -1,0 +1,4 @@
+Title: Log Alignment
+Comic Number: 2884
+Alt Text: A video can have a log scale that's misaligned with both the time AND space axes.
+Transcript: Sample transcript or OCR output for comic #2884

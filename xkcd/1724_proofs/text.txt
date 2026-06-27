@@ -1,0 +1,4 @@
+Title: Proofs
+Comic Number: 1724
+Alt Text: Next, let's assume the decision of whether to take the Axiom of Choice is made by a deterministic process ...
+Transcript: Sample transcript or OCR output for comic #1724

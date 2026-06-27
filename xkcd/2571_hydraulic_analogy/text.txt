@@ -1,0 +1,4 @@
+Title: Hydraulic Analogy
+Comic Number: 2571
+Alt Text: Current (water) running through the water (wires) causes it to boil, increasing the pressure (voltage), but resisting (impeding) the flow of hydroelectricity (water currents). This is the basis for Ohm's law.
+Transcript: Sample transcript or OCR output for comic #2571

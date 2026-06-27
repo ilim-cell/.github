@@ -1,0 +1,4 @@
+Title: Lightning Distance
+Comic Number: 2027
+Alt Text: The index of radio refraction does have a lot of variation, which might throw off your calculations, so you can also look at the difference in brightness between the visible flash and more-attenuated UV and x-rays.
+Transcript: Sample transcript or OCR output for comic #2027

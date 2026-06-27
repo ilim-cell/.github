@@ -1,0 +1,4 @@
+Title: Account Problems
+Comic Number: 2700
+Alt Text: My password is just every Unicode codepoint concatenated into a single UTF-8 string.
+Transcript: Sample transcript or OCR output for comic #2700

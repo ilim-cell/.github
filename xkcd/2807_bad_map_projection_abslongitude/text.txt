@@ -1,0 +1,4 @@
+Title: Bad Map Projection: ABS(Longitude)
+Comic Number: 2807
+Alt Text: Positive vibes/longitudes only
+Transcript: Sample transcript or OCR output for comic #2807

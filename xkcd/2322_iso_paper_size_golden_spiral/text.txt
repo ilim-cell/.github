@@ -1,0 +1,4 @@
+Title: ISO Paper Size Golden Spiral
+Comic Number: 2322
+Alt Text: The ISO 216 standard ratio is cos(45°), but American letter paper is 8.5x11 because it uses radians, and 8.5/11 = pi/4.
+Transcript: Sample transcript or OCR output for comic #2322

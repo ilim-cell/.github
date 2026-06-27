@@ -1,0 +1,4 @@
+Title: Fix This Sign
+Comic Number: 3113
+Alt Text: We're building on our earlier success getting web developers to pay to change the backslashes in our displayed payment URL to forward slashes.
+Transcript: Sample transcript or OCR output for comic #3113

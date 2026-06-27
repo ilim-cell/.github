@@ -1,0 +1,4 @@
+Title: Flawed Data
+Comic Number: 2494
+Alt Text: We trained it to produce data that looked convincing, and we have to admit the results look convincing!
+Transcript: Sample transcript or OCR output for comic #2494

@@ -1,0 +1,4 @@
+Title: Stack
+Comic Number: 2166
+Alt Text: Gotta feel kind of bad for nation-state hackers who spend years implanting and cultivating some hardware exploit, only to discover the entire target database is already exposed to anyone with a web browser.
+Transcript: Sample transcript or OCR output for comic #2166

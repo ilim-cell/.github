@@ -1,0 +1,4 @@
+Title: Sloped Border
+Comic Number: 2519
+Alt Text: "The slope will be 74° at ground level." "Okay, I think we can hack together a  ... wait, why did they specify ground level? It's 74° everywhere, right? ... Oh no, there's a whole section in the treaty labeled 'curvature.'"
+Transcript: Sample transcript or OCR output for comic #2519

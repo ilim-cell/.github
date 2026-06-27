@@ -1,0 +1,4 @@
+Title: Data Point
+Comic Number: 2713
+Alt Text: In general you should only include your single best data point in the paper. The rest of the data can go in the supplementary materials.
+Transcript: Sample transcript or OCR output for comic #2713

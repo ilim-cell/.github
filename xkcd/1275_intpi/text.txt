@@ -1,0 +1,10 @@
+Title: int(pi)
+Comic Number: 1275
+Alt Text: If replacing all the '3's doesn't fix your code, remove the 4s, too, with 'ceiling(pi) / floor(pi) * pi * r^floor(pi)'. Mmm, floor pie.
+Transcript: [[We see a line of code.]]
+volume(r) = (r
+int(pi))*pi*r^int(pi)
+Programming tip: the number "3" is cursed. Avoid it.
+
+{{Title text: If replacing all the '3's doesn't fix your code, remove the 4s, too, with 'ceiling(pi) 
+ floor(pi) * pi * r^floor(pi)'. Mmm, floor pie.}}

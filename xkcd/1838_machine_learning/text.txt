@@ -1,0 +1,4 @@
+Title: Machine Learning
+Comic Number: 1838
+Alt Text: The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent.
+Transcript: Sample transcript or OCR output for comic #1838

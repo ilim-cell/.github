@@ -1,0 +1,4 @@
+Title: Modern Tools
+Comic Number: 2510
+Alt Text: I tried to train an AI to repair my Python environment but it kept giving up and deleting itself.
+Transcript: Sample transcript or OCR output for comic #2510

@@ -1,0 +1,4 @@
+Title: Sandwich Helix
+Comic Number: 3003
+Alt Text: The number one rule of string manipulation is that youâ€™ve got to specify your encodings.
+Transcript: Sample transcript or OCR output for comic #3003

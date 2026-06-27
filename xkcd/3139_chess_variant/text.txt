@@ -1,0 +1,4 @@
+Title: Chess Variant
+Comic Number: 3139
+Alt Text: The draw-by-repetition rule does a good job of keeping players from sliding a tile back and forth repeatedly, but the tiles definitely introduce some weird en passant and castling edge cases.
+Transcript: Sample transcript or OCR output for comic #3139

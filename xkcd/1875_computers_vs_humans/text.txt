@@ -1,0 +1,4 @@
+Title: Computers vs Humans
+Comic Number: 1875
+Alt Text: It's hard to train deep learning algorithms when most of the positive feedback they get is sarcastic.
+Transcript: Sample transcript or OCR output for comic #1875

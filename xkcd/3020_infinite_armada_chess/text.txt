@@ -1,0 +1,4 @@
+Title: Infinite Armada Chess
+Comic Number: 3020
+Alt Text: Stockfish 16 suggests the unconventional opening 1. RuntimeError: Out of bounds memory access
+Transcript: Sample transcript or OCR output for comic #3020

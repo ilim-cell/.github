@@ -1,0 +1,8 @@
+Title: Virus Venn Diagram
+Comic Number: 1180
+Alt Text: Within five minutes of the Singularity appearing, somebody will suggest defragging it.
+Transcript: [[There are two circles, a green one, and a blue one. They form a Venn diagram composed of two disjoint sets.]]
+Green circle: Computer problems that make people say "Maybe it has a virus?" 
+Blue circle: Computer problems caused by viruses
+
+{{Title text: Within five minutes of the Singularity appearing, somebody will suggest defragging it.}}

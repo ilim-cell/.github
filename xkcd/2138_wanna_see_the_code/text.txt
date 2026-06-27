@@ -1,0 +1,4 @@
+Title: Wanna See the Code?
+Comic Number: 2138
+Alt Text: And because if you just leave it there, it's going to start contaminating things downstream even if no one touches it directly.
+Transcript: Sample transcript or OCR output for comic #2138

@@ -1,0 +1,4 @@
+Title: Confidence Interval
+Comic Number: 2311
+Alt Text: The worst part is that's the millisigma interval.
+Transcript: Sample transcript or OCR output for comic #2311

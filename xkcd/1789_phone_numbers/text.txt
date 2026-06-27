@@ -1,0 +1,4 @@
+Title: Phone Numbers
+Comic Number: 1789
+Alt Text: Texting should work. Unless the message is too long, in which case it gets converted to voicemails, and I think I'm locked out of my voicemail.
+Transcript: Sample transcript or OCR output for comic #1789

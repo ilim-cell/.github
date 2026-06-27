@@ -1,0 +1,4 @@
+Title: Code Quality 2
+Comic Number: 1695
+Alt Text: It's like you tried to define a formal grammar based on fragments of a raw database dump from the QuickBooks file of a company that's about to collapse in an accounting scandal.
+Transcript: Sample transcript or OCR output for comic #1695

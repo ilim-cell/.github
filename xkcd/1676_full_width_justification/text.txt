@@ -1,0 +1,4 @@
+Title: Full-Width Justification
+Comic Number: 1676
+Alt Text: Gonna start bugging the Unicode consortium to add snake segment characters that can be combined into an arbitrary-length non-breaking snake.
+Transcript: Sample transcript or OCR output for comic #1676

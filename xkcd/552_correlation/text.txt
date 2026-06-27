@@ -1,0 +1,9 @@
+Title: Correlation
+Comic Number: 552
+Alt Text: Correlation doesn't imply causation, but it does waggle its eyebrows suggestively and gesture furtively while mouthing 'look over there'.
+Transcript: [[A man is talking to a woman]]
+Man: I used to think correlation implied causation.
+Man: Then I took a statistics class.  Now I don't.
+Woman: Sounds like the class helped.
+Man: Well, maybe.
+{{Title text: Correlation doesn't imply causation, but it does waggle its eyebrows suggestively and gesture furtively while mouthing 'look over there'.}}

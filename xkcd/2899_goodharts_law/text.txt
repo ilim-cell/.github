@@ -1,0 +1,4 @@
+Title: Goodhart's Law
+Comic Number: 2899
+Alt Text: [later] I'm pleased to report we're now identifying and replacing hundreds of outdated metrics per hour.
+Transcript: Sample transcript or OCR output for comic #2899

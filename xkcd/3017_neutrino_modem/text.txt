@@ -1,0 +1,4 @@
+Title: Neutrino Modem
+Comic Number: 3017
+Alt Text: Our sysadmin accidentally won a Nobel Prize while trying to debug neutrino oscillation error correction.
+Transcript: Sample transcript or OCR output for comic #3017

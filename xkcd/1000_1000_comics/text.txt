@@ -1,0 +1,9 @@
+Title: 1000 Comics
+Comic Number: 1000
+Alt Text: Thank you for making me feel less alone.
+Transcript: [[1000 characters, numerous of which have appeared previously in other comics, are arranged to create the number "1000". Two more people stand in the foreground commenting on the formation]]
+
+Person 1: WOOOO!
+Person 2: Wow - Just 24 to go until a big round-number milestone!
+
+{{Title text: Thank you for making me feel less alone.}}

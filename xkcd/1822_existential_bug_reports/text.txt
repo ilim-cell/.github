@@ -1,0 +1,4 @@
+Title: Existential Bug Reports
+Comic Number: 1822
+Alt Text: ISSUE: If we wait long enough, the Earth will eventually be consumed by the Sun. WORKAROUND: None.
+Transcript: Sample transcript or OCR output for comic #1822

@@ -1,0 +1,9 @@
+Title: Astronaut Vandalism
+Comic Number: 1375
+Alt Text: That night, retired USAF pilots covertly replaced the '62' with '50'.
+Transcript: [[A signpost has had a third arrow added at the top, pointing up.  The signs read:]]
+Space 62
+Jackson 115
+Memphis 98
+
+{{Title text: That night, retired USAF pilots covertly replaced the '62' with '50'.}}

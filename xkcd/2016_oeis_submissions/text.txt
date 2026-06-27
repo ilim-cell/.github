@@ -1,0 +1,4 @@
+Title: OEIS Submissions
+Comic Number: 2016
+Alt Text: SUB[59]: The submission numbers for my accepted OEIS submissions in chronological order
+Transcript: Sample transcript or OCR output for comic #2016

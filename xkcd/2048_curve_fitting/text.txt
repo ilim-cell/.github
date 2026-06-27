@@ -1,0 +1,4 @@
+Title: Curve-Fitting
+Comic Number: 2048
+Alt Text: Cauchy-Lorentz: "Something alarmingly mathematical is happening, and you should probably pause to Google my name and check what field I originally worked in."
+Transcript: Sample transcript or OCR output for comic #2048

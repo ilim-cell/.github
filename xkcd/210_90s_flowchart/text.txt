@@ -1,0 +1,17 @@
+Title: 90's Flowchart
+Comic Number: 210
+Alt Text: Freestyle rapping is basically applied Markov chains.
+Transcript: Start
+ |
+The 90's?
+ 
+          \
+No       Yes
+ |           |
+Stop      Stop
+           
+       \
+Hammertime  Collaborate
+                       |
+                    Listen
+{{alt: Freestyle rapping is basically applied Markov chains.}}

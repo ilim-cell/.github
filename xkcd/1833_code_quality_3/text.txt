@@ -1,0 +1,4 @@
+Title: Code Quality 3
+Comic Number: 1833
+Alt Text: It's like a half-solved cryptogram where the solution is a piece of FORTH code written by someone who doesn't know FORTH.
+Transcript: Sample transcript or OCR output for comic #1833

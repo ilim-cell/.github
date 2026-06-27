@@ -1,0 +1,4 @@
+Title: Invisible Formatting
+Comic Number: 2109
+Alt Text: To avoid errors like this, we render all text and pipe it through OCR before processing, fixing a handful of irregular bugs by burying them beneath a smooth, uniform layer of bugs.
+Transcript: Sample transcript or OCR output for comic #2109

@@ -1,0 +1,10 @@
+Title: Ayn Random
+Comic Number: 1277
+Alt Text: In a cavern deep below the Earth, Ayn Rand, Paul Ryan, Rand Paul, Ann Druyan, Paul Rudd, Alan Alda, and Duran Duran meet together in the Secret Council of /(b[plurandy]+b ?){2}/i.
+Transcript: [[A figure in a hat stands behind another figure, who is seated at a desk using a laptop.]]
+Seated figure: This Ayn Random number generator you wrote *claims* to be fair, but the output is biased towards certain numbers. 
+Hatted figure: Well, maybe those numbers are just intrinsically better!
+
+{{Title text: In a cavern deep below the Earth, Ayn Rand, Paul Ryan, Rand Paul, Ann Druyan, Paul Rudd, Alan Alda, and Duran Duran meet togther in the Secret Council of 
+(b[plurandy]+b ?){2}
+i.}}

@@ -1,0 +1,4 @@
+Title: Team Chat
+Comic Number: 1782
+Alt Text: 2078: He announces that he's finally making the jump from screen+irssi to tmux+weechat.
+Transcript: Sample transcript or OCR output for comic #1782

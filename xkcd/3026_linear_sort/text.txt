@@ -1,0 +1,4 @@
+Title: Linear Sort
+Comic Number: 3026
+Alt Text: The best case is O(n), and the worst case is that someone checks why.
+Transcript: Sample transcript or OCR output for comic #3026

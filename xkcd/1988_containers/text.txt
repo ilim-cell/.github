@@ -1,0 +1,4 @@
+Title: Containers
+Comic Number: 1988
+Alt Text: All services are microservices if you ignore most of their features.
+Transcript: Sample transcript or OCR output for comic #1988

@@ -1,0 +1,4 @@
+Title: K-Means Clustering
+Comic Number: 2731
+Alt Text: According to my especially unsupervised K-means clustering algorithm, there are currently about 8 billion types of people in the world.
+Transcript: Sample transcript or OCR output for comic #2731

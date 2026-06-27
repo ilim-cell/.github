@@ -1,0 +1,8 @@
+Title: A New CAPTCHA Approach
+Comic Number: 233
+Alt Text: They'd use that Futurama episode with Fry's dog, but even spambots cry at that.
+Transcript: To complete your web registration, please prove that you're human:
+When Littlefoot's mother died in the original `Land Before Time', did you feel sad?
+[[radio button]] Yes
+[[radio button]] No
+(Bots: no lying)

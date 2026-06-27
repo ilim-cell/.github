@@ -1,0 +1,4 @@
+Title: Chessboard Alignment
+Comic Number: 3177
+Alt Text: Luckily, the range is limited by the fact that the square boundary lines follow great circles.
+Transcript: Sample transcript or OCR output for comic #3177

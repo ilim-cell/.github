@@ -1,0 +1,4 @@
+Title: Turing Complete
+Comic Number: 2556
+Alt Text: Thanks to the ForcedEntry exploit, your company's entire tech stack can now be hosted out of a PDF you texted to someone.
+Transcript: Sample transcript or OCR output for comic #2556

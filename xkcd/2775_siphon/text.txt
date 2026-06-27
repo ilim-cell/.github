@@ -1,0 +1,4 @@
+Title: Siphon
+Comic Number: 2775
+Alt Text: ADDITIONAL NOTES: Fixed a bug that caused some rocks to generate virtually infinite heat while just sitting there.
+Transcript: Sample transcript or OCR output for comic #2775

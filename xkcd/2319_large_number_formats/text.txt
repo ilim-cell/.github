@@ -1,0 +1,4 @@
+Title: Large Number Formats
+Comic Number: 2319
+Alt Text: 10^13.4024: A person who has come back to numbers after a journey deep into some random theoretical field
+Transcript: Sample transcript or OCR output for comic #2319

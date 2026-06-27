@@ -1,0 +1,4 @@
+Title: All-in-One
+Comic Number: 2369
+Alt Text: Changes with this update: If you use the combined scan-shred function, it now performs them in that order instead of the reverse, saving a HUGE amount of CPU time.
+Transcript: Sample transcript or OCR output for comic #2369

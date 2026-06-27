@@ -1,0 +1,4 @@
+Title: Bayes' Theorem
+Comic Number: 2545
+Alt Text: P((B|A)|(A|B)) represents the probability that you'll mix up the order of the terms when using Bayesian notation.
+Transcript: Sample transcript or OCR output for comic #2545

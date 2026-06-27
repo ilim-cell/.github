@@ -1,123 +1,168 @@
 import os
+import re
 import json
 import time
 import requests
-from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # --- CONFIGURATION ---
 DB_FILE = "xkcd_embeddings.json"
+OUTPUT_DIR = "xkcd"
+MAX_WORKERS = 10  # Number of concurrent downloads (balanced speed and server etiquette)
 
-def load_existing_archive():
-    """Loads the database if it exists, or returns a blank blueprint."""
-    if os.path.exists(DB_FILE):
-        try:
-            with open(DB_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            print("⚠️ Existing database file was corrupted. Starting fresh.")
-    return {}
+# Standard browser headers to bypass strict CDN block rules on dynamic comics (like 1608 and 1663)
+REQUEST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://xkcd.com/"
+}
 
-def save_archive(data):
-    """Saves the current state back to disk."""
-    with open(DB_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+def slugify(text):
+    """Generates a clean directory-safe name from comic titles."""
+    text = text.lower()
+    text = re.sub(r'[^a-z0-9\s-]', '', text)
+    text = re.sub(r'[\s-]+', '_', text)
+    return text.strip('_')
 
-def run_backfill():
-    # 1. Fetch the latest comic ID to know our true endpoint
+def process_comic(num_str, data):
+    """Processes a single comic: recreates folder, text files, and fetches image if missing."""
     try:
-        latest_res = requests.get("https://xkcd.com/info.0.json")
-        total_comics = latest_res.json()["num"]
-    except Exception:
-        print("❌ Could not connect to xkcd API. Check your internet connection.")
+        num = int(num_str)
+        title = data.get("title", "Untitled")
+        alt = data.get("alt", "")
+        img_url = data.get("img_url") or data.get("img")  # support either database format key
+        
+        # Dual-key fallback: Check both "ocr_text" and "transcript" to ensure data recovery
+        ocr_text = data.get("ocr_text") or data.get("transcript") or ""
+        
+        # Fallback: If the transcript is empty or contains the sample boilerplate,
+        # fetch the real, official transcript live from xkcd's API!
+        is_placeholder = ocr_text.strip().startswith("Sample transcript or OCR output")
+        if not ocr_text.strip() or is_placeholder:
+            try:
+                api_url = f"https://xkcd.com/{num}/info.0.json"
+                res = requests.get(api_url, headers=REQUEST_HEADERS, timeout=10)
+                if res.status_code == 200:
+                    api_data = res.json()
+                    official_transcript = api_data.get("transcript", "")
+                    if official_transcript:
+                        ocr_text = official_transcript
+            except Exception:
+                # Silently ignore connection errors so the rest of the pool keeps running
+                pass
+
+        # Enforce standard folder organization format: number_comicname
+        title_slug = slugify(title)
+        folder = f"{num}_{title_slug}"
+
+        comic_dir = os.path.join(OUTPUT_DIR, folder)
+        os.makedirs(comic_dir, exist_ok=True)
+
+        # 1. Regenerate text.txt transcript
+        text_dest_path = os.path.join(comic_dir, "text.txt")
+        full_searchable_content = (
+            f"Title: {title}\n"
+            f"Comic Number: {num}\n"
+            f"Alt Text: {alt}\n"
+            f"Transcript: {ocr_text}"
+        )
+        with open(text_dest_path, "w", encoding="utf-8") as f:
+            f.write(full_searchable_content)
+
+        # 2. Download Image Asset (only if it is a valid image file URL)
+        downloaded_new = False
+        if img_url:
+            clean_url = img_url.split('?')[0].strip()
+            ext = os.path.splitext(clean_url)[-1].lower()
+            
+            # Check if the URL is just a generic directory path (e.g. ending with '/comics/' or lacking a filename)
+            is_directory_endpoint = clean_url.endswith("/comics/") or clean_url.endswith("/comics") or not ext
+            
+            if is_directory_endpoint:
+                # Silently skip download for interactive comics that don't have static image CDN assets
+                return True, num, title, False
+
+            img_dest_path = os.path.join(comic_dir, f"{num}{ext}")
+
+            # Download only if the image doesn't already exist to save bandwidth and time
+            if not os.path.exists(img_dest_path):
+                try:
+                    # Added custom browser-mimicking headers to avoid 403 Forbidden responses
+                    img_response = requests.get(img_url, headers=REQUEST_HEADERS, timeout=15)
+                    if img_response.status_code == 200:
+                        with open(img_dest_path, "wb") as f:
+                            f.write(img_response.content)
+                        downloaded_new = True
+                    else:
+                        print(f"\n⚠️ Warning: Got HTTP status {img_response.status_code} for comic #{num}")
+                except Exception as e:
+                    print(f"\n⚠️ Error downloading image for comic #{num}: {e}")
+                
+        return True, num, title, downloaded_new
+    except Exception as e:
+        print(f"\n❌ Error processing comic key {num_str}: {e}")
+        return False, None, None, False
+
+def main():
+    if not os.path.exists(DB_FILE):
+        print(f"❌ Error: Database file '{DB_FILE}' not found in the current directory.")
+        print("Please make sure you run this script from the root folder where your database is stored.")
         return
 
-    # 2. Load whatever progress you have already made
-    archive_index = load_existing_archive()
-    already_downloaded = len(archive_index)
-    
-    # Initialize the tracking of the last processed comic
-    last_info = "None"
-    if archive_index:
+    print(f"📖 Loading database index '{DB_FILE}'...")
+    with open(DB_FILE, "r", encoding="utf-8") as f:
         try:
-            # Seed the display with the highest numbered comic currently in your index
-            highest_key = str(max(map(int, archive_index.keys())))
-            highest_title = archive_index[highest_key].get("title", "Untitled")
-            last_info = f"#{highest_key}: {highest_title}"
-        except Exception:
-            pass
+            database = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"❌ Error parsing database: {e}")
+            return
 
-    print(f"\n📦 Found {already_downloaded} comics already indexed locally.")
-    print(f"🚀 Streaming data harvest for remaining target pool...\n")
+    total_comics = len(database)
+    print(f"✅ Loaded {total_comics} comic definitions. Starting multi-threaded recovery pool with {MAX_WORKERS} workers...")
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    # 3. Create the progress bar with a custom bar format matching your mockup
-    progress_bar = tqdm(
-        range(1, total_comics + 1),
-        desc="Archiving xkcd Vault",
-        initial=already_downloaded,
-        total=total_comics,
-        unit="s",  # Changes the speed unit to /s
-        bar_format='{desc}: {percentage:3.0f}% [{bar}] {n_fmt}/{total_fmt} [{elapsed} | -{remaining}] [{rate_fmt}] {postfix}'
-    )
+    restored_count = 0
+    new_downloads = 0
+    start_time = time.time()
 
-    for num in progress_bar:
-        # Comic 404 famously returns a 404 Error page on xkcd
-        if num == 404:
-            continue
-            
-        # If the comic string key is already in our JSON file, skip it entirely
-        if str(num) in archive_index:
-            continue  
-
-        # Update the UI showing the last comic processed while actively fetching the new metadata
-        progress_bar.set_postfix_str(f"[Last={last_info}] [Current=#{num}: Fetching...]")
-        
-        try:
-            # Fetch JSON Metadata
-            res = requests.get(f"https://xkcd.com/{num}/info.0.json")
-            if res.status_code != 200:
-                continue
-            
-            comic_data = res.json()
-            comic_title = comic_data.get("title", "Untitled")
-
-            # Show the newly fetched title actively processing
-            progress_bar.set_postfix_str(f"[Last={last_info}] [Current=#{num}: {comic_title}]")
-            
-            # --- YOUR OCR AND IMAGE PROCESSING LOGIC GOES HERE ---
-            # (Simulating extraction for the boilerplate structure)
-            extracted_text = f"Sample transcript or OCR output for comic #{num}" 
-            # -----------------------------------------------------
-
-            # Update our dictionary in memory
-            archive_index[str(num)] = {
-                "title": comic_title,
-                "alt": comic_data.get("alt"),
-                "img_url": comic_data.get("img"),
-                "ocr_text": extracted_text
+    # We use ThreadPoolExecutor to perform concurrent downloads
+    try:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            # Submit all jobs to the thread pool
+            futures = {
+                executor.submit(process_comic, num_str, data): num_str 
+                for num_str, data in database.items()
             }
 
-            # Periodic saving so you don't lose data if you kill the terminal midway
-            if len(archive_index) % 10 == 0:
-                save_archive(archive_index)
+            for future in as_completed(futures):
+                success, num, title, downloaded_new = future.result()
+                if success:
+                    restored_count += 1
+                    if downloaded_new:
+                        new_downloads += 1
 
-            # Update our last info tracker for the next iteration's background fetch phase
-            last_info = f"#{num}: {comic_title}"
+                # Clean, single-line dynamic progress meter
+                elapsed = time.time() - start_time
+                rate = restored_count / elapsed if elapsed > 0 else 0
+                remaining = (total_comics - restored_count) / rate if rate > 0 else 0
+                
+                # Format the status line text
+                status_line = (
+                    f"🔄 Progress: {restored_count}/{total_comics} ({restored_count/total_comics*100:.1f}%) "
+                    f"| Restored: #{num if num else '?'}: {(title[:15] if title else '?')} "
+                    f"| Speed: {rate:.1f} item/s "
+                    f"| Est. Time: {remaining:.0f}s "
+                    f"| New DLs: {new_downloads}"
+                )
+                # Pad the printed line to completely erase lingering text from previous lines
+                print(f"\r{status_line:<115}", end="", flush=True)
 
-            # Be nice to Randall's servers
-            time.sleep(0.1)
+        print(f"\n\n🎉 Success! Rebuilt all local directories under '/{OUTPUT_DIR}' in {time.time() - start_time:.1f}s.")
+        print(f"📥 Recreated folder layout and downloaded {new_downloads} missing images!")
 
-        except KeyboardInterrupt:
-            print("\n\n🛑 Execution paused by user. Saving current checkpoint progress...")
-            save_archive(archive_index)
-            print("💾 Checkpoint saved safely! Run the script again whenever you want to resume.")
-            return
-        except Exception as e:
-            # Log errors but don't crash the whole loop
-            continue
-
-    # Final sweep save once the whole thing completes
-    save_archive(archive_index)
-    print("\n🎉 The xkcd vault has been fully mirrored and indexed!")
+    except KeyboardInterrupt:
+        print("\n\n🛑 Recovery paused by user. Folders generated up to this point remain saved.")
 
 if __name__ == "__main__":
-    run_backfill()
+    main()

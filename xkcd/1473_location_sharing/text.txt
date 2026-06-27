@@ -1,0 +1,13 @@
+Title: Location Sharing
+Comic Number: 1473
+Alt Text: Our phones must have great angular momentum sensors because the compasses really suck.
+Transcript: [[A character is staring at the screen of their smartphone.]]
+Phone: This website wants to know your location.
+Character: Allow.
+
+[[The character stares at the screen in disbelief, and cocks their head slightly.]]
+
+Phone: This website wants to know your momentum.
+Character: Deny. Nice try.
+
+{{Title text: Our phones must have great angular momentum sensors because the compasses really suck.}}
