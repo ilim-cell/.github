@@ -2,22 +2,12 @@ name: Fetch Latest xkcd
 
 on:
   schedule:
-    - cron: '5 12 * * 1,3,5'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  fetch-comic:
-    runs-on: ubuntu-latest
-    steps:name: Update XKCD Comic
-
-on:
-  schedule:
     # Runs at 12:02 PM UTC on Monday, Wednesday, and Friday
     - cron: '2 12 * * 1,3,5'
   workflow_dispatch: # Allows manual trigger for testing
+
+permissions:
+  contents: write
 
 jobs:
   update-readme:
@@ -48,30 +38,3 @@ jobs:
           # Only commit if something actually changed
           git diff-index --quiet HEAD || git commit -m "chore: auto-update latest xkcd comic and image"
           git push
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create img directory
-        run: mkdir -p img
-
-      - name: Fetch xkcd and update file
-        id: xkcd
-        run: |
-          RESPONSE=$(curl -s https://xkcd.com/info.0.json)
-          IMG_URL=$(echo "$RESPONSE" | jq -r '.img')
-          ALT_TEXT=$(echo "$RESPONSE" | jq -r '.alt' | sed 's/"/\\"/g')
-          
-          curl -s -o img/xkcd.png "$IMG_URL"
-          
-          HTML_BLOCK="<a href=\"https://xkcd.com\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png\" alt=\"$ALT_TEXT\" /></a>\n<details><summary>💬 Click to view alt text</summary><blockquote>$ALT_TEXT</blockquote></details>"
-          
-          sed -i "/<!-- xkcd-start -->/,/<!-- xkcd-end -->/ { /<!-- xkcd-start -->/! { /<!-- xkcd-end -->/! d; }; }" README.md
-          sed -i "/<!-- xkcd-start -->/a $HTML_BLOCK" README.md
-
-      - name: Commit and Push changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          git add img/xkcd.png README.md
-          git diff-index --quiet HEAD || (git commit -m "Automated update: xkcd image and html alt text" && git push)
