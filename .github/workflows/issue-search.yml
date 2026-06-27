@@ -23,19 +23,33 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Post the starting comment and extract its comment ID from the returned URL
+          # Post the starting comment and extract its comment ID immediately
           COMMENT_URL=$(gh issue comment ${{ github.event.issue.number }} --body "⏳ **Search has started...** The neural search engine is spinning up to process your query. Results will be posted here momentarily!")
           COMMENT_ID=$(echo "$COMMENT_URL" | grep -oE '[0-9]+$')
           echo "COMMENT_ID=$COMMENT_ID" >> $GITHUB_ENV
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      # Use 'uv' - the lightning fast Rust-based Python package installer
+      - name: Set up uv
+        uses: astral-sh/setup-uv-action@v5
         with:
-          python-version: '3.x'
-          cache: 'pip'
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      # Cache the Hugging Face neural network weights so they don't download every run
+      - name: Cache Hugging Face Model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-model-${{ runner.os }}-all-MiniLM-L6-v2
+          restore-keys: |
+            hf-model-${{ runner.os }}-
 
       - name: Install Compute Dependencies
-        run: pip install -r requirements.txt
+        # uv installs packages in seconds compared to standard pip
+        run: |
+          uv pip install --system sentence-transformers numpy
 
       - name: Execute Model Cross-Referencing & Auto-Rename
         env:
@@ -46,12 +60,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Edit the exact comment we created at the start of the run
           gh api -X PATCH repos/${{ github.repository }}/issues/comments/${{ env.COMMENT_ID }} -F body=@search_results.md
 
       - name: Lock Conversation
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Lock the issue conversation to prevent spam or extra replies
           gh issue lock ${{ github.event.issue.number }} --reason "resolved"
