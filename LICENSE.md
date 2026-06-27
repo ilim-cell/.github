@@ -1,4 +1,4 @@
-# MIT License
+MIT License
 
 Copyright (c) 2026 ilim-cell
 
@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-## Data and Content Attribution
-
-The code and software architecture of this repository are licensed under the MIT License above.
-
-However, all xkcd comics, images, metadata, and transcripts fetched, archived, or displayed by this software are the intellectual property of Randall Munroe and are licensed under the Creative Commons Attribution-NonCommercial 2.5 License (CC BY-NC 2.5).
-
-To view a copy of this license, visit: https://creativecommons.org/licenses/by-nc/2.5/
