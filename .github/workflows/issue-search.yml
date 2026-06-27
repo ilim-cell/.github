@@ -1,0 +1,58 @@
+name: Handle Semantic Search Issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  semantic-lookup:
+    if: contains(github.event.issue.labels.*.name, 'xkcd-search')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Vault Repository
+        uses: actions/checkout@v4
+
+      - name: Parse Query From Issue Form
+        id: parse
+        uses: eddiedebz/parse-issue-body-action@v2
+        with:
+          issue-body: ${{ github.event.issue.body }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Install Compute Dependencies
+        run: pip install sentence-transformers numpy
+
+      - name: Execute Model Cross-Referencing
+        # Pass the parsed input box text securely into the runtime environment
+        env:
+          SEARCH_QUERY: ${{ steps.parse.outputs.query }}
+        run: python .github/scripts/issue_search.py
+
+      - name: Read Search Results Content
+        id: results
+        run: |
+          # Safe injection of markdown text body across lines into step outputs
+          EOF=$(dd if=/dev/urandom bs=15 count=1 2>/dev/null | base64)
+          echo "comment<<$EOF" >> $GITHUB_OUTPUT
+          cat search_results.md >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
+
+      - name: Post Results Comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ steps.results.outputs.comment }}
+
+      - name: Auto-Close Issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: "Closing issue. Search completed successfully! ✨"
