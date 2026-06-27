@@ -103,7 +103,6 @@ class MultiFieldBM25:
         totals = {field: 0 for field in self.weights}
         
         for num, data in self.database.items():
-            # Extract content from each designated field
             title = data.get("title", "")
             alt = data.get("alt", "")
             ocr_text = data.get("ocr_text") or data.get("transcript") or ""
@@ -123,7 +122,6 @@ class MultiFieldBM25:
                 tf = {}
                 for token in tokens:
                     tf[token] = tf.get(token, 0) + 1
-                    # Stemmed variant indexing
                     stemmed = get_singular(token)
                     if stemmed != token:
                         tf[stemmed] = tf.get(stemmed, 0) + 0.8
@@ -145,15 +143,28 @@ class MultiFieldBM25:
                 )
 
     def calculate_score(self, query_str, doc_idx, details):
-        """Calculates the weighted BM25 similarity score with exact phrase boosting."""
+        """Calculates the weighted BM25 similarity score with exact phrase boosting and coordination factor."""
         query_tokens = clean_and_tokenize(query_str)
         filtered_query = [w for w in query_tokens if w not in STOP_WORDS]
         if not filtered_query:
             filtered_query = query_tokens
 
-        score = 0.0
+        # 1. Calculate Coordination Factor (how many of the unique query tokens matched this document?)
+        matched_terms = 0
+        for token in filtered_query:
+            token_matched = False
+            for field in self.weights:
+                tf_map = self.doc_term_freqs[field][doc_idx]
+                if tf_map.get(token, 0.0) > 0.0 or tf_map.get(get_singular(token), 0.0) > 0.0:
+                    token_matched = True
+                    break
+            if token_matched:
+                matched_terms += 1
 
-        # 1. Multi-Field BM25 calculations
+        coordination_factor = matched_terms / len(filtered_query) if filtered_query else 1.0
+
+        # 2. Multi-Field BM25 calculations
+        score = 0.0
         for field, field_weight in self.weights.items():
             tf_map = self.doc_term_freqs[field][doc_idx]
             doc_len = self.doc_lengths[field][doc_idx]
@@ -163,7 +174,6 @@ class MultiFieldBM25:
             for token in filtered_query:
                 token_idf = self.idf[field].get(token, 0.0)
                 
-                # Check direct or stemmed token counts
                 tf_val = tf_map.get(token, 0.0)
                 if tf_val == 0.0:
                     stemmed = get_singular(token)
@@ -176,10 +186,12 @@ class MultiFieldBM25:
 
             score += field_score * field_weight
 
-        # 2. Exact Phrase Boost (detects continuous string matches for absolute lookup quality)
+        # Multiply raw BM25 score by the coordination factor squared to penalize weak partial matches heavily
+        score = score * (coordination_factor ** 2)
+
+        # 3. Exact Phrase Boost (adds huge priority for multi-word sequences in exact quotes)
         clean_phrase_query = " ".join(query_tokens)
         if len(clean_phrase_query) > 4:
-            # Reconstruct clean text representations
             title_text = " ".join(clean_and_tokenize(details.get("title", "")))
             alt_text = " ".join(clean_and_tokenize(details.get("alt", "")))
             ocr_text = " ".join(clean_and_tokenize(details.get("ocr_text") or details.get("transcript") or ""))
@@ -189,7 +201,7 @@ class MultiFieldBM25:
             elif clean_phrase_query in alt_text or clean_phrase_query in ocr_text:
                 score += 100.0  # High priority for quoting alt/transcript text
 
-        return score
+        return score, coordination_factor
 
 def main():
     # 1. Parse issue details and rename
@@ -212,9 +224,8 @@ def main():
     results = []
     
     for idx, (num, details) in enumerate(archive_index.items()):
-        score = engine.calculate_score(query_str, idx, details)
+        score, coord = engine.calculate_score(query_str, idx, details)
         
-        # Format clean target path strings
         title = details.get("title", "Untitled")
         alt = details.get("alt", "")
         folder = details.get("folder") or f"{num}_{slugify(title)}"
@@ -222,7 +233,7 @@ def main():
 
         # Only retain entries that have some level of matching scores
         if score > 0.0:
-            results.append((score, num, title, folder, alt, img_url))
+            results.append((score, coord, num, title, folder, alt, img_url))
 
     # Sort candidates by their combined BM25 and phrase boost scoring
     results.sort(key=lambda x: x[0], reverse=True)
@@ -238,9 +249,16 @@ def main():
         comment_body += "Here are the top matches found in the archive:\n\n"
         
         # Take top 3 highest rated matches
-        for rank, (score, num, title, folder, alt, img_url) in enumerate(results[:3]):
-            # Assign match percentages based on relative scoring tiers
-            match_percentage = min(100.0, 50.0 + (score * 2.0)) if score < 25.0 else 100.0
+        for score, coord, num, title, folder, alt, img_url in results[:3]:
+            # Scale percentages realistically: Exact phrase matches get >95%, BM25 matches scale dynamically
+            if score >= 100.0:
+                match_percentage = min(100.0, 95.0 + (score - 100.0) / 10.0)
+            else:
+                # A solid coordinated BM25 score of 10.0 represents a very high quality match
+                match_percentage = min(94.0, (score / 10.0) * 85.0)
+                # Apply coordination directly to the display percentage as well
+                match_percentage = max(1.0, match_percentage * coord)
+            
             indicator = "🟢" if match_percentage > 70.0 else "🟡"
             
             comment_body += (
@@ -253,12 +271,18 @@ def main():
                 
             comment_body += "---\n"
             
-        comment_body += "\n*🤖 This lookup was processed instantly (under 0.05s) using our fundamentally redesigned, pure-Python Multi-Field BM25 Engine.*"
+        comment_body += "\n*🤖 This lookup was processed instantly (under 0.05s) using our fundamentally redesigned, pure-Python Multi-Field BM25 Engine with coordination penalties.*"
         comment_body += "\n\n---\n"
         comment_body += "🔒 **This thread has been locked to prevent spam.** If this recommendation was helpful, please click the **Close issue** button below! ✨"
 
     with open("search_results.md", "w", encoding="utf-8") as f:
         f.write(comment_body)
+
+def write_error(message):
+    """Helper to write error outputs to markdown."""
+    print(f"Error: {message}")
+    with open("search_results.md", "w", encoding="utf-8") as f:
+        f.write(f"⚠️ {message}")
 
 if __name__ == "__main__":
     main()
