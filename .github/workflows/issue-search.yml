@@ -28,16 +28,16 @@ jobs:
           COMMENT_ID=$(echo "$COMMENT_URL" | grep -oE '[0-9]+$')
           echo "COMMENT_ID=$COMMENT_ID" >> $GITHUB_ENV
 
-      # Use 'uv' - the lightning fast Rust-based Python package installer
+      # Corrected action name to astral-sh/setup-uv
       - name: Set up uv
-        uses: astral-sh/setup-uv-action@v5
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
       - name: Set up Python
         run: uv python install 3.11
 
-      # Cache the Hugging Face neural network weights so they don't download every run
+      # Cache the Hugging Face weights so they don't download every run
       - name: Cache Hugging Face Model
         uses: actions/cache@v4
         with:
@@ -47,7 +47,6 @@ jobs:
             hf-model-${{ runner.os }}-
 
       - name: Install Compute Dependencies
-        # uv installs packages in seconds compared to standard pip
         run: |
           uv pip install --system sentence-transformers numpy
 
