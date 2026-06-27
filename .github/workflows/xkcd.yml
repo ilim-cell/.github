@@ -1,0 +1,42 @@
+name: Fetch Latest xkcd
+
+on:
+  schedule:
+    # Runs at 12:05 UTC on Monday (1), Wednesday (3), and Friday (5)
+    - cron: '5 12 * * 1,3,5'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  fetch-comic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create img directory if it doesn't exist
+        run: mkdir -p img
+
+      - name: Fetch and download xkcd image
+        id: xkcd
+        run: |
+          # Fetch the current comic's JSON data
+          RESPONSE=$(curl -s https://xkcd.com/info.0.json)
+          
+          # Extract the image URL
+          IMG_URL=$(echo "$RESPONSE" | jq -r '.img')
+          TITLE=$(echo "$RESPONSE" | jq -r '.title')
+          
+          echo "Downloading latest comic: $TITLE"
+          
+          # Download the image and save it directly as img/xkcd.png (overwriting old one)
+          curl -s -o img/xkcd.png "$IMG_URL"
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git add img/xkcd.png
+          
+          # Only commit and push if the image actually changed
+          git diff-index --quiet HEAD || (git commit -m "Automated update: latest xkcd.png" && git push)
