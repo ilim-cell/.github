@@ -1,4 +1,4 @@
-name: XKCD
+name: Fetch Latest xkcd
 
 on:
   schedule:
@@ -18,20 +18,24 @@ jobs:
       - name: Create img directory
         run: mkdir -p img
 
-      - name: Fetch and download xkcd
+      - name: Fetch xkcd and update file
         id: xkcd
         run: |
           RESPONSE=$(curl -s https://xkcd.com/info.0.json)
           IMG_URL=$(echo "$RESPONSE" | jq -r '.img')
-          ALT_TEXT=$(echo "$RESPONSE" | jq -r '.alt')
+          ALT_TEXT=$(echo "$RESPONSE" | jq -r '.alt' | sed 's/"/\\"/g')
           
           curl -s -o img/xkcd.png "$IMG_URL"
-          echo "$ALT_TEXT" > img/xkcd_alt.txt
+          
+          HTML_BLOCK="<a href=\"https://xkcd.com\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png\" alt=\"$ALT_TEXT\" title=\"$ALT_TEXT\" /></a>"
+          
+          sed -i "/<!-- xkcd-start -->/,/<!-- xkcd-end -->/ { /<!-- xkcd-start -->/! { /<!-- xkcd-end -->/! d; }; }" README.md
+          sed -i "/<!-- xkcd-start -->/a $HTML_BLOCK" README.md
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          git add img/xkcd.png img/xkcd_alt.txt
-          git diff-index --quiet HEAD || (git commit -m "Automated update: latest xkcd.png and alt text" && git push)
+          git add img/xkcd.png README.md
+          git diff-index --quiet HEAD || (git commit -m "Automated update: xkcd image and html alt text" && git push)
