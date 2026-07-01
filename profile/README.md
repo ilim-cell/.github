@@ -1,10 +1,10 @@
 
-### xkcd #3264: 720 Ollie
-<a href="https://xkcd.com/3264" target="_blank" rel="noopener noreferrer" title="This discovery was key to his demonstration of regular/goofy symmetry violation, which won him gold in the theory portion of the X Games.">
-  <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="720 Ollie" title="This discovery was key to his demonstration of regular/goofy symmetry violation, which won him gold in the theory portion of the X Games." />
+### xkcd #3265: Asteroid Threat
+<a href="https://xkcd.com/3265" target="_blank" rel="noopener noreferrer" title="Paleontologists have long worried that the dinosaurs blasted into space 66 million years ago will one day complete their orbits and fall back down.">
+  <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="Asteroid Threat" title="Paleontologists have long worried that the dinosaurs blasted into space 66 million years ago will one day complete their orbits and fall back down." />
 </a>
 
-### xkcd #3264: 720 Ollie
-<a href="https://xkcd.com/3264" target="_blank" rel="noopener noreferrer" title="This discovery was key to his demonstration of regular/goofy symmetry violation, which won him gold in the theory portion of the X Games.">
-  <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="720 Ollie" title="This discovery was key to his demonstration of regular/goofy symmetry violation, which won him gold in the theory portion of the X Games." />
+### xkcd #3265: Asteroid Threat
+<a href="https://xkcd.com/3265" target="_blank" rel="noopener noreferrer" title="Paleontologists have long worried that the dinosaurs blasted into space 66 million years ago will one day complete their orbits and fall back down.">
+  <img src="https://raw.githubusercontent.com/ilim-cell/.github/main/img/xkcd.png" alt="Asteroid Threat" title="Paleontologists have long worried that the dinosaurs blasted into space 66 million years ago will one day complete their orbits and fall back down." />
 </a>
