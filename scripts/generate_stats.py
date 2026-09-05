@@ -36,10 +36,17 @@ query($login: String!, $from: DateTime!, $to: DateTime!) {
 }
 """
 
-LIGHT = dict(data="#6e7681", emph="#424a53", dim="#8c959f",
-             rule="#d8dee4", surface="#ffffff")
-DARK = dict(data="#c9d1d9", emph="#f0f6fc", dim="#8b949e",
-            rule="#30363d", surface="#0d1117")
+LIGHT = dict(
+    data="#6e7681", emph="#424a53", dim="#8c959f",
+    rule="#d8dee4", surface="#ffffff",
+    ramp=["#eff2f5", "#aceebb", "#4ac26b", "#2da44e", "#116329"]
+)
+DARK = dict(
+    data="#c9d1d9", emph="#f0f6fc", dim="#8b949e",
+    rule="#30363d", surface="#0d1117",
+    ramp=["#151b23", "#033a16", "#196c2e", "#2ea043", "#56d364"]
+)
+
 MONO = ("JBMono,ui-monospace,SFMono-Regular,Menlo,Consolas,"
         "'Liberation Mono',monospace")
 FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
@@ -68,7 +75,6 @@ def font_head():
 WIDTH = 620
 LEFT = 34
 REVEAL = 1.30
-RAMP = [" ", ":", "+", "#", "@"]
 MON = ["jan", "feb", "mar", "apr", "may", "jun",
        "jul", "aug", "sep", "oct", "nov", "dec"]
 XML_INVALID_CHAR_RE = re.compile(
@@ -173,9 +179,10 @@ def summarise(user):
 
 def style(extra="", font=None):
     def block(t):
-        return (f".d-f{{fill:{t['data']}}}.d-s{{stroke:{t['data']}}}"
-                f".e-f{{fill:{t['emph']}}}.m-f{{fill:{t['dim']}}}"
-                f".u-s{{stroke:{t['rule']}}}.r{{stroke:{t['surface']}}}")
+        ramp_css = "".join(f".c{i}{{fill:{col};}}" for i, col in enumerate(t['ramp']))
+        return (f".d-f{{fill:{t['data']};}}.d-s{{stroke:{t['data']};}}"
+                f".e-f{{fill:{t['emph']};}}.m-f{{fill:{t['dim']};}}"
+                f".u-s{{stroke:{t['rule']};}}.r{{stroke:{t['surface']};}}{ramp_css}")
 
     return (f"<style>{font or font_text()}"
             f"{block(LIGHT)}.w{{fill:{LIGHT['data']};opacity:.13}}{extra}"
@@ -321,11 +328,12 @@ def draw_heading(word):
 
 
 def draw_year(s):
-    fs, lh, colw = 9.2, 11.0, 2
-    cw = fs * 0.6
+    cell_size = 8
+    cell_gap = 2.5
+    step = cell_size + cell_gap
     pad_l, pad_t = LEFT, 44
     weeks = s["weeks"]
-    h = int(pad_t + 7 * lh + 26)
+    h = int(pad_t + 7 * step + 26)
 
     def level(v):
         for i, cut in enumerate((0, 2, 5, 9)):
@@ -338,41 +346,51 @@ def draw_year(s):
              label(pad_l, 16, "THE YEAR", 9, "m-f", extra=' letter-spacing="1.3"') +
              label(pad_l, 32, f"{s['active']} of {sum(len(w) for w in weeks)} days had a contribution", 11) +
              '</g>')
+
+    # Render Legend
     lx = WIDTH - 6
-    ramp_text = xml_text(" ".join(RAMP[1:]))
     p.append(f'<g opacity="0">{fade(1.30)}' +
-             label(lx - 78, 32, "less", 9, "m-f", "end") +
-             f'<text xml:space="preserve" x="{lx - 72}" y="32" class="d-f" font-size="{fs}">{ramp_text}</text>' +
-             label(lx, 32, "more", 9, "m-f", "end") + '</g>')
-    for r in range(7):
-        chars = []
-        for w in weeks:
-            day = next((d for d in w if d.get("weekday") == r), None)
-            v = day["contributionCount"] if day else 0
-            chars.append(RAMP[level(v)] * colw)
-        line = "".join(chars).rstrip()
-        if not line:
-            continue
-        y = pad_t + r * lh
-        w_px = max(len(line), 1) * cw
-        cid = f"ry{r}"
-        delay = 0.30 + r * 0.07
-        p.append(f'<clipPath id="{cid}"><rect x="{pad_l}" y="{y}" height="{lh}" width="0">'
-                 f'<animate attributeName="width" from="0" to="{w_px:.1f}" begin="{delay:.2f}s" dur="0.40s" fill="freeze"/>'
-                 f'</rect></clipPath>')
-        safe = xml_text(line)
-        p.append(f'<g clip-path="url(#{cid})"><text xml:space="preserve" x="{pad_l}" y="{y + fs - 0.6:.1f}" class="d-f" font-size="{fs}">{safe}</text></g>')
+             label(lx - 72, 32, "less", 9, "m-f", "end"))
+    for i in range(5):
+        rx = lx - 66 + i * 11
+        p.append(f'<rect x="{rx}" y="24" width="9" height="9" rx="2" class="c{i}"/>')
+    p.append(label(lx, 32, "more", 9, "m-f", "end") + '</g>')
+
+    # Render Contribution Grid
+    grid_w = len(weeks) * step
+    cid = "ry_grid"
+    delay = 0.30
+    clip, cursor = wipe(cid, pad_l, pad_t, grid_w, 7 * step, delay, 0.80)
+    p.append(clip)
+    p.append(f'<g clip-path="url(#{cid})">')
+
+    for wi, w in enumerate(weeks):
+        for day in w:
+            r = day.get("weekday", 0)
+            v = day.get("contributionCount", 0)
+            lvl = level(v)
+            x = pad_l + wi * step
+            y = pad_t + r * step
+            p.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{cell_size}" height="{cell_size}" rx="2" class="c{lvl}"/>')
+
+    p.append('</g>')
+    p.append(cursor)
+
+    # Render Day Labels
     for r, lab in ((1, "mon"), (3, "wed"), (5, "fri")):
-        p.append(label(pad_l - 7, pad_t + r * lh + fs - 0.6, lab, 9, "m-f", "end"))
+        p.append(label(pad_l - 7, pad_t + r * step + 7, lab, 9, "m-f", "end"))
+
+    # Render Month Labels
     last_m, last_x = None, -999.0
-    base_y = pad_t + 7 * lh + 13
+    base_y = pad_t + 7 * step + 13
     for i, w in enumerate(weeks):
         m = int(w[0]["date"][5:7])
-        x = pad_l + i * colw * cw
-        if m != last_m and i < len(weeks) - 1 and x - last_x >= 34:
+        x = pad_l + i * step
+        if m != last_m and i < len(weeks) - 1 and x - last_x >= 32:
             p.append(label(x, base_y, MON[m - 1], 9, "m-f"))
             last_x = x
         last_m = m
+
     p.append("</svg>")
     return "".join(p)
 
