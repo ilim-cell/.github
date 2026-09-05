@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="200" viewBox="0 0 460 200">
+<style>
+  .a{fill:#6e7681}@media(prefers-color-scheme:dark){.a{fill:#c9d1d9}}
+</style>
+<text x="230" y="80" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="24" class="a">ilim-cell</text>
+<text x="230" y="110" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" class="a">a random coder</text>
+<text x="230" y="130" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" class="a">with random repositories</text>
+</svg>
