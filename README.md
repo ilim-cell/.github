@@ -2,12 +2,6 @@
   <img src="https://raw.githubusercontent.com/ilim-cell/ilim-cell/main/ascii.svg" width="72%" alt="ilim-cell"/>
 </p>
 
-<p align="center">
-  <a href="https://ilim-cell.is-a.dev">ilim-cell.is-a.dev</a> &nbsp;·&nbsp;
-  <a href="https://www.linkedin.com/in/niek-vogelaar-271222392/">linkedin</a> &nbsp;·&nbsp;
-  <a href="mailto:niek@ilim-cell.is-a.dev">email</a>
-</p>
-
 <br><br>
 
 <p align="center">
